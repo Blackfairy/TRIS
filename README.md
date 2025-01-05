@@ -1,1 +1,1 @@
-# TRIS
+# TRIS Technological Research Information System
