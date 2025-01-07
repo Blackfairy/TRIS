@@ -158,6 +158,16 @@ class Admin extends CI_Controller {
     $page_data['users'] = $this->user_model->get_all_user($param2);
     $this->load->view('backend/index', $page_data);
   }
+  public function audit_trail() {
+    if ($this->session->userdata('admin_login') != true) {
+        redirect(site_url('home/login'), 'refresh');
+    }
+
+    $page_data['page_name'] = 'audit_trail';
+    $page_data['page_title'] = get_phrase('audit_trail');
+    $page_data['audit_trails'] = $this->db->order_by('timestamp', 'desc')->get('audit_trail')->result_array();
+    $this->load->view('backend/index', $page_data);
+}
   public function user_logs($param1 = "", $param2 = "") {
     if ($this->session->userdata('admin_login') != true) {
         redirect(site_url('home/login'), 'refresh');
@@ -887,4 +897,14 @@ class Admin extends CI_Controller {
     $question_json = $this->input->post('itemJSON');
     $this->crud_model->sort_question($question_json);
   }
+  private function log_audit_trail($user_id, $action, $table_name, $record_id, $details = '') {
+    $data = array(
+        'user_id' => $user_id,
+        'action' => $action,
+        'table_name' => $table_name,
+        'record_id' => $record_id,
+        'details' => $details
+    );
+    $this->db->insert('audit_trail', $data);
+}
 }

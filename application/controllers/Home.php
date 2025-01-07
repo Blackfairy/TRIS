@@ -382,22 +382,29 @@ class Home extends CI_Controller {
     }
 
     public function search($search_string = "") {
+        $selected_category_id = $this->input->get('category_id');
+        $selected_subcategory_id = $this->input->get('subcategory_id');
+        $selected_price = $this->input->get('price');
+        $selected_level = $this->input->get('level');
+        $selected_language = $this->input->get('language');
+        $selected_rating = $this->input->get('rating');
+    
         if (isset($_GET['query']) && !empty($_GET['query'])) {
             $search_string = $_GET['query'];
-            $page_data['manuscripts'] = $this->crud_model->get_manuscripts_by_search_string($search_string)->result_array();
-        }else {
+            $page_data['manuscripts'] = $this->crud_model->filter_manuscript($selected_category_id, $selected_subcategory_id, $selected_price, $selected_level, $selected_language, $selected_rating, $search_string);
+        } else {
             $this->session->set_flashdata('error_message', get_phrase('no_search_value_found'));
             redirect(site_url(), 'refresh');
         }
-
+    
         if (!$this->session->userdata('layout')) {
             $this->session->set_userdata('layout', 'list');
         }
-        $page_data['layout']     = $this->session->userdata('layout');
+        $page_data['layout'] = $this->session->userdata('layout');
         $page_data['page_name'] = 'manuscripts_page';
         $page_data['search_string'] = $search_string;
         $page_data['page_title'] = get_phrase('search_results');
-        $this->load->view('frontend/'.get_frontend_settings('theme').'/index', $page_data);
+        $this->load->view('frontend/' . get_frontend_settings('theme') . '/index', $page_data);
     }
     public function my_manuscripts_by_search_string() {
         $search_string = $this->input->post('search_string');

@@ -50,7 +50,7 @@
 			</li>
 			<li class="side-nav-item">
 				<a href="<?php echo site_url('admin/users'); ?>" class="side-nav-link <?php if ($page_name == 'users' || $page_name == 'user_add' || $page_name == 'user_edit')echo 'active';?>">
-					<i class="dripicons-user-group"></i>
+					<i class="dripicons-graduation"></i>
 					<span><?php echo get_phrase('students'); ?></span>
 				</a>
 			</li>
@@ -63,10 +63,10 @@
 			</li>
 			<?php endif; ?>
 
-			<li class="side-nav-item <?php if ($page_name == 'accessed_history' || $page_name == 'access_student'): ?> active <?php endif; ?>">
+			<li class="side-nav-item <?php if ($page_name == 'accessed_history' || $page_name == 'access_student' || $page_name == 'admin_revenue' || $page_name == 'researcher_revenue' || $page_name == 'invoice' || $page_name == 'audit_trail'): ?> active <?php endif; ?>">
 				<a href="javascript: void(0);" class="side-nav-link <?php if ($page_name == 'enrol_history' || $page_name == 'enrol_student'): ?> active <?php endif; ?>">
-					<i class="dripicons-network-3"></i>
-					<span> <?php echo get_phrase('User Logs'); ?> </span>
+					<i class="dripicons-box"></i>
+					<span> <?php echo get_phrase('Reports'); ?> </span>
 					<span class="menu-arrow"></span>
 				</a>
 				<ul class="side-nav-second-level" aria-expanded="false">
@@ -78,13 +78,6 @@
 					</li>
 
 				</ul>
-			</li>
-			<li class="side-nav-item">
-				<a href="javascript: void(0);" class="side-nav-link <?php if ($page_name == 'admin_revenue' || $page_name == 'researcher_revenue' || $page_name == 'invoice'): ?> active <?php endif; ?>">
-					<i class="dripicons-box"></i>
-					<span> <?php echo get_phrase('report'); ?> </span>
-					<span class="menu-arrow"></span>
-				</a>
 				<ul class="side-nav-second-level" aria-expanded="false">
 					<li class = "<?php if($page_name == 'admin_revenue') echo 'active'; ?>" > <a href="<?php echo site_url('admin/admin_revenue'); ?>"><?php echo get_phrase('admin_revenue'); ?></a> </li>
 					<?php if (get_settings('allow_researcher') == 1): ?>
@@ -94,8 +87,16 @@
 									</a>
 							</li>
 					<?php endif; ?>
+				</ul>	
+				<ul class="side-nav-second-level" aria-expanded="false">
+				<li class = "<?php if($page_name == 'audit_trail') echo 'active'; ?>" > 
+					<a href="<?php echo site_url('admin/audit_trail'); ?>">
+						<?php echo get_phrase('audit_trail'); ?></a> </li>
+				
 				</ul>
 			</li>
+	
+			
 
 			<li class="side-nav-item">
 				<a href="<?php echo site_url('admin/message'); ?>" class="side-nav-link <?php if ($page_name == 'message' || $page_name == 'message_new' || $page_name == 'message_read')echo 'active';?>">

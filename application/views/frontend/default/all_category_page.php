@@ -34,7 +34,47 @@
         <div class="row">
             <div class="col">
                 <div class="category-filter-box filter-box clearfix">
-                    <a href = "<?php echo site_url('home/all_category'); ?>" class="btn btn-outline-secondary all-btn"><?php echo get_phrase('all'); ?></a>
+                    <a href="<?php echo site_url('home/all_category'); ?>" class="btn btn-outline-secondary all-btn"><?php echo get_phrase('all'); ?></a>
+                    <form action="<?php echo site_url('home/search'); ?>" method="get" class="form-inline">
+                        <select name="category_id" class="form-control">
+                            <option value="all"><?php echo get_phrase('select_category'); ?></option>
+                            <?php foreach ($categories as $category): ?>
+                                <option value="<?php echo $category['id']; ?>"><?php echo $category['name']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <select name="subcategory_id" class="form-control">
+                            <option value="all"><?php echo get_phrase('select_subcategory'); ?></option>
+                            <?php foreach ($subcategories as $subcategory): ?>
+                                <option value="<?php echo $subcategory['id']; ?>"><?php echo $subcategory['name']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <select name="price" class="form-control">
+                            <option value="all"><?php echo get_phrase('select_price'); ?></option>
+                            <option value="free"><?php echo get_phrase('free'); ?></option>
+                            <option value="paid"><?php echo get_phrase('paid'); ?></option>
+                        </select>
+                        <select name="level" class="form-control">
+                            <option value="all"><?php echo get_phrase('select_level'); ?></option>
+                            <option value="beginner"><?php echo get_phrase('beginner'); ?></option>
+                            <option value="intermediate"><?php echo get_phrase('intermediate'); ?></option>
+                            <option value="advanced"><?php echo get_phrase('advanced'); ?></option>
+                        </select>
+                        <select name="language" class="form-control">
+                            <option value="all"><?php echo get_phrase('select_language'); ?></option>
+                            <option value="english"><?php echo get_phrase('english'); ?></option>
+                            <option value="french"><?php echo get_phrase('french'); ?></option>
+                            <!-- Add more languages as needed -->
+                        </select>
+                        <select name="rating" class="form-control">
+                            <option value="all"><?php echo get_phrase('select_rating'); ?></option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary"><?php echo get_phrase('filter'); ?></button>
+                    </form>
                 </div>
                 <div class="category-manuscript-list">
                     <ul>
@@ -76,62 +116,15 @@
                                         <?php if ($manuscript['is_free_manuscript'] == 1): ?>
                                             <span class="current-price"><?php echo get_phrase('free'); ?></span>
                                         <?php else: ?>
-                                          <?php if($manuscript['discount_flag'] == 1): ?>
-                                              <span class="current-price"><?php echo currency($manuscript['discounted_price']); ?></span>
-                                              <span class="original-price"><?php echo currency($manuscript['price']); ?></span>
-                                          <?php else: ?>
-                                              <span class="current-price"><?php echo currency($manuscript['price']); ?></span>
-                                          <?php endif; ?>
+                                            <span class="current-price"><?php echo currency($manuscript['price']); ?></span>
                                         <?php endif; ?>
-                                    </div>
-                                    <div class="rating">
-                                        <?php
-                                            $total_rating =  $this->crud_model->get_ratings('manuscript', $manuscript['id'], true)->row()->rating;
-                                            $number_of_ratings = $this->crud_model->get_ratings('manuscript', $manuscript['id'])->num_rows();
-                                            if ($number_of_ratings > 0) {
-                                                $average_ceil_rating = ceil($total_rating / $number_of_ratings);
-                                            }else {
-                                                $average_ceil_rating = 0;
-                                            }
-
-                                            for($i = 1; $i < 6; $i++):?>
-                                            <?php if ($i <= $average_ceil_rating): ?>
-                                            <i class="fas fa-star filled"></i>
-                                            <?php else: ?>
-                                            <i class="fas fa-star"></i>
-                                            <?php endif; ?>
-                                            <?php endfor; ?>
-                                        <span class="d-inline-block average-rating"><?php echo $average_ceil_rating; ?></span>
-                                    </div>
-                                    <div class="rating-number">
-                                        <?php echo $this->crud_model->get_ratings('manuscript', $manuscript['id'])->num_rows().' '.get_phrase('ratings'); ?>
                                     </div>
                                 </div>
                             </div>
                         </li>
-                    <?php endforeach; ?>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
-                <nav>
-                    <!-- <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <span class="page-link"><i class="fas fa-chevron-left"></i></span>
-                        </li>
-                        <li class="page-item active disabled">
-                            <span class="page-link" href="#">1</span>
-                        </li>
-                        <li class="page-item">
-                            <span class="page-link">2</span>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">3</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                        </li>
-                    </ul> -->
-                    <?php echo $this->pagination->create_links(); ?>
-                </nav>
             </div>
         </div>
     </div>

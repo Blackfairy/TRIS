@@ -10,7 +10,21 @@ class Crud_model extends CI_Model {
         $this->output->set_header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
         $this->output->set_header('Pragma: no-cache');
     }
+    private function log_audit_trail($user_id, $action, $table_name, $record_id, $details = '') {
+        // Fetch the user's email address based on the user_id
+        $user = $this->db->get_where('users', array('id' => $user_id))->row();
+        $user_email = $user ? $user->email : 'Unknown';
 
+        $data = array(
+            'user_email' => $user_email,
+            'action' => $action,
+            'table_name' => $table_name,
+            'record_id' => $record_id,
+            'details' => $details,
+            'timestamp' => date('Y-m-d H:i:s')
+        );
+        $this->db->insert('audit_trail', $data);
+    }
     public function get_categories($param1 = "") {
         if ($param1 != "") {
             $this->db->where('id', $param1);
@@ -54,6 +68,7 @@ class Crud_model extends CI_Model {
         }
         $data['date_added'] = strtotime(date('D, d-M-Y'));
         $this->db->insert('category', $data);
+        $this->log_audit_trail($this->session->userdata('user_id'), 'add', 'category', $category_id, 'Category added');
     }
 
     public function edit_category($param1) {
@@ -79,11 +94,13 @@ class Crud_model extends CI_Model {
         $data['last_modified'] = strtotime(date('D, d-M-Y'));
         $this->db->where('id', $param1);
         $this->db->update('category', $data);
+        $this->log_audit_trail($this->session->userdata('user_id'), 'update', 'category', $category_id, 'Category updated');
     }
 
     public function delete_category($category_id) {
         $this->db->where('id', $category_id);
         $this->db->delete('category');
+        $this->log_audit_trail($this->session->userdata('user_id'), 'delete', 'category', $category_id, 'Category deleted');
     }
 
     public function get_sub_categories($parent_id = "") {
@@ -264,6 +281,8 @@ class Crud_model extends CI_Model {
         $data['value'] = html_escape($this->input->post('student_email_verification'));
         $this->db->where('key', 'student_email_verification');
         $this->db->update('settings', $data);
+        // Log the update action
+        $this->log_audit_trail($this->session->userdata('user_id'), 'update', 'settings', 0, 'System settings updated');
     }
 
     public function update_smtp_settings() {
@@ -286,6 +305,8 @@ class Crud_model extends CI_Model {
         $data['value'] = html_escape($this->input->post('smtp_pass'));
         $this->db->where('key', 'smtp_pass');
         $this->db->update('settings', $data);
+        // Log the update action
+        $this->log_audit_trail($this->session->userdata('user_id'), 'update', 'settings', 0, 'SMTP settings updated');
     }
 
     public function update_paypal_settings() {
@@ -305,6 +326,8 @@ class Crud_model extends CI_Model {
         $data['value'] = html_escape($this->input->post('paypal_currency'));
         $this->db->where('key', 'paypal_currency');
         $this->db->update('settings', $data);
+        // Log the update action
+        $this->log_audit_trail($this->session->userdata('user_id'), 'update', 'settings', 0, 'Paypal settings updated');
     }
 
     public function update_stripe_settings() {
@@ -327,6 +350,8 @@ class Crud_model extends CI_Model {
         $data['value'] = html_escape($this->input->post('stripe_currency'));
         $this->db->where('key', 'stripe_currency');
         $this->db->update('settings', $data);
+        // Log the update action
+        $this->log_audit_trail($this->session->userdata('user_id'), 'update', 'settings', 0, 'Stripe settings updated');
     }
 
     public function update_system_currency() {
@@ -337,6 +362,8 @@ class Crud_model extends CI_Model {
         $data['value'] = html_escape($this->input->post('currency_position'));
         $this->db->where('key', 'currency_position');
         $this->db->update('settings', $data);
+        // Log the update action
+        $this->log_audit_trail($this->session->userdata('user_id'), 'update', 'settings', 0, 'Currency settings updated');
     }
 
     public function update_researcher_settings() {
@@ -347,6 +374,8 @@ class Crud_model extends CI_Model {
         $data['value'] = html_escape($this->input->post('researcher_revenue'));
         $this->db->where('key', 'researcher_revenue');
         $this->db->update('settings', $data);
+    // Log the update action
+    $this->log_audit_trail($this->session->userdata('user_id'), 'update', 'settings', 0, 'Researcher settings updated');
     }
 
     public function get_lessons($type = "", $id = "") {
@@ -436,6 +465,7 @@ class Crud_model extends CI_Model {
         } elseif ($data['status'] == 'draft') {
             $this->session->set_flashdata('flash_message', get_phrase('your_manuscript_has_been_added_to_draft'));
         }
+        $this->log_audit_trail($this->session->userdata('user_id'), 'add', 'manuscripts', $manuscript_id, 'Manuscript added');
     }
     
     function trim_and_return_json($untrimmed_array) {
@@ -527,6 +557,8 @@ class Crud_model extends CI_Model {
         } elseif ($data['status'] == 'draft') {
             $this->session->set_flashdata('flash_message', get_phrase('your_manuscript_has_been_added_to_draft'));
         }
+
+        $this->log_audit_trail($this->session->userdata('user_id'), 'update', 'manuscripts', $manuscript_id, 'Manuscript updated');
     }
     
 
@@ -536,6 +568,7 @@ class Crud_model extends CI_Model {
         );
         $this->db->where('id', $manuscript_id);
         $this->db->update('manuscript', $updater);
+        $this->log_audit_trail($this->session->userdata('user_id'), 'update', 'manuscripts', $manuscript_id, 'Manuscript status changed to ' . $status);
     }
 
     public function get_manuscript_thumbnail_url($manuscript_id) {
@@ -583,6 +616,7 @@ class Crud_model extends CI_Model {
 
     public function get_manuscripts_by_search_string($search_string) {
         $this->db->like('title', $search_string);
+        $this->db->or_like('meta_keywords', $search_string);
         $this->db->where('status', 'active');
         return $this->db->get('manuscript');
     }
@@ -595,6 +629,7 @@ class Crud_model extends CI_Model {
     public function delete_manuscript($manuscript_id) {
         $this->db->where('id', $manuscript_id);
         $this->db->delete('manuscript');
+        $this->log_audit_trail($this->session->userdata('user_id'), 'delete', 'manuscripts', $manuscript_id, 'Manuscript deleted');
     }
 
     public function get_top_manuscripts() {
@@ -700,12 +735,16 @@ class Crud_model extends CI_Model {
             $this->db->where('id', $manuscript_id);
             $this->db->update('manuscript', $updater);
         }
+        // Log the add action
+        $this->log_audit_trail($this->session->userdata('user_id'), 'add', 'section', $section_id, 'Section added');
     }
 
     public function edit_section($section_id) {
         $data['title'] = $this->input->post('title');
         $this->db->where('id', $section_id);
         $this->db->update('section', $data);
+        // Log the add action
+        $this->log_audit_trail($this->session->userdata('user_id'), 'edit', 'section', $section_id, 'Section updated');
     }
 
     public function delete_section($manuscript_id, $section_id) {
@@ -726,6 +765,8 @@ class Crud_model extends CI_Model {
             $this->db->where('id', $manuscript_id);
             $this->db->update('manuscript', $updater);
         }
+        // Log the add action
+        $this->log_audit_trail($this->session->userdata('user_id'), 'delete', 'section', $section_id, 'Section deleted');
     }
 
     public function get_section($type_by, $id){
@@ -931,26 +972,38 @@ class Crud_model extends CI_Model {
         $data['value'] = $this->input->post('privacy_policy');
         $this->db->where('key', 'privacy_policy');
         $this->db->update('frontend_settings', $data);
-    }
-
-    public function update_frontend_banner() {
-        move_uploaded_file($_FILES['banner_image']['tmp_name'], 'uploads/system/home-banner.jpg');
-    }
-
-    public function update_light_logo() {
-        move_uploaded_file($_FILES['light_logo']['tmp_name'], 'uploads/system/logo-light.png');
+        // Log the update action
+        $this->log_audit_trail($this->session->userdata('user_id'), 'update', 'frontend_settings', 0, 'Frontend settings updated');
     }
 
     public function update_dark_logo() {
-        move_uploaded_file($_FILES['dark_logo']['tmp_name'], 'uploads/system/logo-dark.png');
+        if (move_uploaded_file($_FILES['dark_logo']['tmp_name'], 'uploads/system/logo-dark.png')) {
+            $this->log_audit_trail($this->session->userdata('user_id'), 'update', 'system', 0, 'Dark logo updated');
+        }
+    }
+
+    public function update_light_logo() {
+        if (move_uploaded_file($_FILES['light_logo']['tmp_name'], 'uploads/system/logo-light.png')) {
+            $this->log_audit_trail($this->session->userdata('user_id'), 'update', 'system', 0, 'Light logo updated');
+        }
+    }
+
+    public function update_frontend_banner() {
+        if (move_uploaded_file($_FILES['banner_image']['tmp_name'], 'uploads/system/home-banner.jpg')) {
+            $this->log_audit_trail($this->session->userdata('user_id'), 'update', 'system', 0, 'Frontend banner updated');
+        }
     }
 
     public function update_small_logo() {
-        move_uploaded_file($_FILES['small_logo']['tmp_name'], 'uploads/system/logo-light-sm.png');
+        if (move_uploaded_file($_FILES['small_logo']['tmp_name'], 'uploads/system/logo-light-sm.png')) {
+            $this->log_audit_trail($this->session->userdata('user_id'), 'update', 'system', 0, 'Small logo updated');
+        }
     }
 
     public function update_favicon() {
-        move_uploaded_file($_FILES['favicon']['tmp_name'], 'uploads/system/favicon.png');
+        if (move_uploaded_file($_FILES['favicon']['tmp_name'], 'uploads/system/favicon.png')) {
+            $this->log_audit_trail($this->session->userdata('user_id'), 'update', 'system', 0, 'Favicon updated');
+        }
     }
 
     public function handleWishList($manuscript_id) {
@@ -1320,35 +1373,43 @@ class Crud_model extends CI_Model {
         }
 
         // version 1.4
-        function filter_manuscript($selected_category_id = "", $selected_price = "", $selected_level = "", $selected_language = "", $selected_rating = ""){
-            //echo $selected_category_id.' '.$selected_price.' '.$selected_level.' '.$selected_language.' '.$selected_rating;
-
+        function filter_manuscript($selected_category_id = "", $selected_price = "", $selected_level = "", $selected_language = "", $selected_rating = "", $search_string = "") {
             $manuscript_ids = array();
+    
             if ($selected_category_id != "all") {
                 $this->db->where('sub_category_id', $selected_category_id);
             }
-
+    
             if ($selected_price != "all") {
                 if ($selected_price == "paid") {
-                    $this->db->where('is_free_manuscript', null);
-                }elseif ($selected_price == "free") {
+                    $this->db->where('is_free_manuscript', 0);
+                } elseif ($selected_price == "free") {
                     $this->db->where('is_free_manuscript', 1);
                 }
             }
-
+    
             if ($selected_level != "all") {
                 $this->db->where('level', $selected_level);
             }
-
+    
             if ($selected_language != "all") {
                 $this->db->where('language', $selected_language);
             }
+    
+            if (!empty($search_string)) {
+                $this->db->group_start();
+                $this->db->like('title', $search_string);
+                $this->db->or_like('description', $search_string);
+                $this->db->or_like('meta_keywords', $search_string);
+                $this->db->group_end();
+            }
+    
             $this->db->where('status', 'active');
             $manuscripts = $this->db->get('manuscript')->result_array();
-
+    
             foreach ($manuscripts as $manuscript) {
                 if ($selected_rating != "all") {
-                    $total_rating =  $this->get_ratings('manuscript', $manuscript['id'], true)->row()->rating;
+                    $total_rating = $this->get_ratings('manuscript', $manuscript['id'], true)->row()->rating;
                     $number_of_ratings = $this->get_ratings('manuscript', $manuscript['id'])->num_rows();
                     if ($number_of_ratings > 0) {
                         $average_ceil_rating = ceil($total_rating / $number_of_ratings);
@@ -1356,15 +1417,15 @@ class Crud_model extends CI_Model {
                             array_push($manuscript_ids, $manuscript['id']);
                         }
                     }
-                }else {
+                } else {
                     array_push($manuscript_ids, $manuscript['id']);
                 }
             }
-
+    
             if (count($manuscript_ids) > 0) {
                 $this->db->where_in('id', $manuscript_ids);
                 return $this->db->get('manuscript')->result_array();
-            }else {
+            } else {
                 return array();
             }
         }

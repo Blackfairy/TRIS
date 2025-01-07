@@ -318,46 +318,48 @@ function togglePassword(inputId) {
 
 </script>
 <script>
-function refreshCaptcha() {
-    const refreshButton = document.getElementById('refresh-captcha');
-    const captchaImage = document.getElementById('captcha-image');
+    function refreshCaptcha() {
+        const captchaImage = document.getElementById('captcha-image');
+        const refreshButton = document.querySelector('button[onclick="refreshCaptcha()"]');
+        refreshButton.disabled = true;
+        refreshButton.textContent = "Refreshing...";
 
-    // Disable the button temporarily to prevent spamming
-    refreshButton.disabled = true;
-    refreshButton.textContent = "Refreshing...";
+        // Make an AJAX call to fetch a new CAPTCHA
+        fetch('<?php echo site_url('login/refresh_captcha'); ?>')
+            .then(response => response.text())
+            .then(data => {
+                // Update the CAPTCHA image
+                captchaImage.innerHTML = data;
 
-    // Make an AJAX call to fetch a new CAPTCHA
-    fetch('<?php echo site_url('login/refresh_captcha'); ?>')
-        .then(response => response.text())
-        .then(data => {
-            // Update the CAPTCHA image
-            captchaImage.innerHTML = data;
+                // Set a delay before enabling the button
+                setTimeout(() => {
+                    refreshButton.disabled = false;
+                    refreshButton.textContent = "Refresh CAPTCHA";
+                }, 2000); // 2-second delay
+            })
+            .catch(error => {
+                console.error("Error refreshing CAPTCHA:", error);
 
-            // Set a delay before enabling the button
-            setTimeout(() => {
-                refreshButton.disabled = false;
-                refreshButton.textContent = "Refresh CAPTCHA";
-            }, 2000); // 2-second delay
-        })
-        .catch(error => {
-            console.error("Error refreshing CAPTCHA:", error);
-
-            // Set a delay before enabling the button even if there's an error
-            setTimeout(() => {
-                refreshButton.disabled = false;
-                refreshButton.textContent = "Refresh CAPTCHA";
-            }, 2000); // 2-second delay
-        });
-}
-
-
-document.querySelector('form').addEventListener('submit', function (e) {
-    const dataPrivacyCheckbox = document.getElementById('data-privacy');
-    if (!dataPrivacyCheckbox.checked) {
-        e.preventDefault();
-        alert('You must agree to the Data Privacy and Terms and Conditions before proceeding.');
+                // Set a delay before enabling the button even if there's an error
+                setTimeout(() => {
+                    refreshButton.disabled = false;
+                    refreshButton.textContent = "Refresh CAPTCHA";
+                }, 2000); // 2-second delay
+            });
     }
-});
+
+    // Add an event listener to call refreshCaptcha when the page loads
+    window.onload = function() {
+        refreshCaptcha();
+    };
+
+    document.querySelector('form').addEventListener('submit', function (e) {
+        const dataPrivacyCheckbox = document.getElementById('data-privacy');
+        if (!dataPrivacyCheckbox.checked) {
+            e.preventDefault();
+            alert('You must agree to the Data Privacy and Terms and Conditions before proceeding.');
+        }
+    });
 
 </script>
 

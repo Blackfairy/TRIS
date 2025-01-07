@@ -25,7 +25,6 @@
                       <th><?php echo get_phrase('photo'); ?></th>
                       <th><?php echo get_phrase('name'); ?></th>
                       <th><?php echo get_phrase('email'); ?></th>
-                      <th><?php echo get_phrase('accessed_manuscripts'); ?></th>
                       <th><?php echo get_phrase('actions'); ?></th>
                     </tr>
                   </thead>
@@ -39,16 +38,7 @@
                               </td>
                               <td><?php echo $user['first_name'].' '.$user['last_name']; ?></td>
                               <td><?php echo $user['email']; ?></td>
-                              <td>
-                                 <?php
-                                    $enrolled_manuscripts = $this->crud_model->enrol_history_by_user_id($user['id']);?>
-                                    <ul>
-                                        <?php foreach ($enrolled_manuscripts->result_array() as $enrolled_manuscript):
-                                            $manuscript_details = $this->crud_model->get_manuscript_by_id($enrolled_manuscript['manuscript_id'])->row_array();?>
-                                            <li><?php echo $manuscript_details['title']; ?></li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                              </td>
+                              
                               <td>
                                   <div class="dropright dropright">
                                     <button type="button" class="btn btn-sm btn-outline-primary btn-rounded btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

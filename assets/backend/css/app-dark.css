@@ -12408,7 +12408,8 @@ div.dt-button-info {
   border: 1px solid #4d5764;
   -webkit-box-shadow: none;
           box-shadow: none;
-  margin: 0; }
+  margin: 0;
+  z-index: 90 !important; }
   .note-editor.note-frame .note-statusbar {
     background-color: #464f5b;
     border-top: 1px solid #4d5764; }

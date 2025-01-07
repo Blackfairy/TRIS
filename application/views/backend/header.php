@@ -1,5 +1,5 @@
 <!-- Topbar Start -->
-<div class="navbar-custom topnav-navbar topnav-navbar-dark">
+<div class="navbar-custom topnav-navbar topnav-navbar-dark" style="z-index: 99 !important;">
     <div class="container-fluid">
 
         <!-- LOGO -->

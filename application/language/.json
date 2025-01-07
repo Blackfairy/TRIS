@@ -599,5 +599,13 @@
     "select_a_manuscript": "Select a manuscript",
     "enrol_student": "Enrol student",
     "student_has_been_enrolled_to_that_manuscript": "Student has been enrolled to that manuscript",
-    "data_deleted_successfully": "Data deleted successfully"
+    "data_deleted_successfully": "Data deleted successfully",
+    "reports": "Reports",
+    "user_id": "User id",
+    "action": "Action",
+    "table_name": "Table name",
+    "record_id": "Record id",
+    "details": "Details",
+    "timestamp": "Timestamp",
+    "user_email": "User email"
 }

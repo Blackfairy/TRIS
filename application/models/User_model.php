@@ -10,6 +10,21 @@ class User_model extends CI_Model {
         $this->output->set_header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
         $this->output->set_header('Pragma: no-cache');
     }
+    private function log_audit_trail($user_id, $action, $table_name, $record_id, $details = '') {
+        // Fetch the user's email address based on the user_id
+        $user = $this->db->get_where('users', array('id' => $user_id))->row();
+        $user_email = $user ? $user->email : 'Unknown';
+
+        $data = array(
+            'user_email' => $user_email,
+            'action' => $action,
+            'table_name' => $table_name,
+            'record_id' => $record_id,
+            'details' => $details,
+            'timestamp' => date('Y-m-d H:i:s')
+        );
+        $this->db->insert('audit_trail', $data);
+    }
 
     public function get_admin_details() {
         return $this->db->get_where('users', array('role_id' => 1));
@@ -72,6 +87,8 @@ class User_model extends CI_Model {
             $this->upload_user_image($user_id);
             $this->session->set_flashdata('flash_message', get_phrase('user_added_successfully'));
         }
+        $this->crud_model->log_audit_trail($this->session->userdata('user_id'), 'add', 'users', $user_id, 'User added');
+   
     }
 
     public function check_duplication($action = "", $email = "", $user_id = "") {
@@ -144,11 +161,16 @@ class User_model extends CI_Model {
         }
 
         $this->upload_user_image($user_id);
+        $this->crud_model->log_audit_trail($this->session->userdata('user_id'), 'edit', 'users', $user_id, 'User edited');
+       
     }
     public function delete_user($user_id = "") {
         $this->db->where('id', $user_id);
         $this->db->delete('users');
         $this->session->set_flashdata('flash_message', get_phrase('user_deleted_successfully'));
+    // Log the delete action
+    $this->crud_model->log_audit_trail($this->session->userdata('user_id'), 'delete', 'users', $user_id, 'User deleted');
+   
     }
 
     public function unlock_screen_by_password($password = "") {
@@ -194,6 +216,8 @@ class User_model extends CI_Model {
         }else {
             $this->session->set_flashdata('error_message', get_phrase('email_duplication'));
         }
+        $this->crud_model->log_audit_trail($this->session->userdata('user_id'), 'update', 'users', $user_id, 'User Account Updated');
+        
     }
 
     public function change_password($user_id) {
@@ -215,6 +239,8 @@ class User_model extends CI_Model {
         $this->db->where('id', $user_id);
         $this->db->update('users', $data);
         $this->session->set_flashdata('flash_message', get_phrase('password_updated'));
+        $this->crud_model->log_audit_trail($this->session->userdata('user_id'), 'change password', 'users', $user_id, 'Password Changed');
+        
     }
 
 
