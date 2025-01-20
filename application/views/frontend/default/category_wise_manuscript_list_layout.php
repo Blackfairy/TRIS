@@ -16,11 +16,11 @@
                             Authors: <?php echo implode(', ', json_decode($manuscript['authors'], true)); ?>
                         </span> <br>
                     <span class="last-updated-date">
-                    <?php echo get_phrase('date_published_:'); ?>
+                    <?php echo get_phrase('date_accomplished_:'); ?>
                     <?php
-                    // Ensure date_published is in the right format before formatting
-                    if (!empty($manuscript['date_published'])) {
-                        echo date('d-M-Y', strtotime($manuscript['date_published']));
+                    // Ensure date_accomplished is in the right format before formatting
+                    if (!empty($manuscript['date_accomplished'])) {
+                        echo date('d-M-Y', strtotime($manuscript['date_accomplished']));
                     } else {
                         echo get_phrase('no_date_available'); // Fallback message if no date is available
                     }

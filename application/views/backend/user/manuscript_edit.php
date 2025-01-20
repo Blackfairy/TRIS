@@ -114,9 +114,9 @@ $manuscript_details = $this->crud_model->get_manuscript_by_id($manuscript_id)->r
                                             </div>
 
                                             <div class="form-group row mb-3">
-                                                <label class="col-md-2 col-form-label" for="date_published"><?php echo get_phrase('date_published'); ?></label>
+                                                <label class="col-md-2 col-form-label" for="date_accomplished"><?php echo get_phrase('date_accomplished'); ?></label>
                                                 <div class="col-md-10">
-                                                    <input type="date" class="form-control" id="date_published" name="date_published" value="<?php echo $manuscript_details['date_published']; ?>">
+                                                    <input type="date" class="form-control" id="date_accomplished" name="date_accomplished" value="<?php echo $manuscript_details['date_accomplished']; ?>">
                                                 </div>
                                             </div>
 

@@ -3,7 +3,7 @@
     <div class="col-xl-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="page-title"> <i class="mdi mdi-apple-keyboard-command title_icon"></i> <?php echo get_phrase('enrol_a_student'); ?></h4>
+                <h4 class="page-title"> <i class="mdi mdi-apple-keyboard-command title_icon"></i> <?php echo get_phrase('authorize_a_student'); ?></h4>
             </div> <!-- end card body-->
         </div> <!-- end card -->
     </div><!-- end col-->
@@ -14,7 +14,7 @@
         <div class="card">
             <div class="card-body">
               <div class="col-lg-12">
-                <h4 class="mb-3 header-title"><?php echo get_phrase('enrolment_form'); ?></h4>
+                <h4 class="mb-3 header-title"><?php echo get_phrase('authorize_access_form'); ?></h4>
 
                 <form class="required-form" action="<?php echo site_url('admin/enrol_student/enrol'); ?>" method="post" enctype="multipart/form-data">
 
@@ -42,7 +42,7 @@
                         </select>
                     </div>
 
-                    <button type="button" class="btn btn-primary" onclick="checkRequiredFields()"><?php echo get_phrase('enrol_student'); ?></button>
+                    <button type="button" class="btn btn-primary" onclick="checkRequiredFields()"><?php echo get_phrase('authorize_student'); ?></button>
                 </form>
               </div>
             </div> <!-- end card body-->

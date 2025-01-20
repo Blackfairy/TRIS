@@ -107,9 +107,9 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row mb-3">
-                                                <label class="col-md-2 col-form-label" for="date_published"><?php echo get_phrase('date_published'); ?></label>
+                                                <label class="col-md-2 col-form-label" for="date_accomplished"><?php echo get_phrase('date_accomplished'); ?></label>
                                                 <div class="col-md-10">
-                                                    <input type="date" class="form-control" id="date_published" name="date_published">
+                                                    <input type="date" class="form-control" id="date_accomplished" name="date_accomplished">
                                                 </div>
                                             </div>
 
@@ -344,14 +344,7 @@
                                                 </div>
                                             </div>
                                         </div> <!-- end col -->
-                                        <div class="col-xl-8">
-                                            <div class="form-group row mb-3">
-                                                <label class="col-md-2 col-form-label" for="meta_description"><?php echo get_phrase('meta_description'); ?></label>
-                                                <div class="col-md-10">
-                                                    <textarea name="meta_description" class="form-control"></textarea>
-                                                </div>
-                                            </div>
-                                        </div> <!-- end col -->
+                        
                                     </div> <!-- end row -->
                                 </div>
                                 <div class="tab-pane" id="finish">

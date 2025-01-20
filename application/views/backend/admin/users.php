@@ -25,6 +25,7 @@
                       <th><?php echo get_phrase('photo'); ?></th>
                       <th><?php echo get_phrase('name'); ?></th>
                       <th><?php echo get_phrase('email'); ?></th>
+                      <th><?php echo get_phrase('date_registered'); ?></th>
                       <th><?php echo get_phrase('actions'); ?></th>
                     </tr>
                   </thead>
@@ -38,7 +39,7 @@
                               </td>
                               <td><?php echo $user['first_name'].' '.$user['last_name']; ?></td>
                               <td><?php echo $user['email']; ?></td>
-                              
+                              <td><?php echo $user['date_added']; ?></td>
                               <td>
                                   <div class="dropright dropright">
                                     <button type="button" class="btn btn-sm btn-outline-primary btn-rounded btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

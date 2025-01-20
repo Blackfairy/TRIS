@@ -407,7 +407,7 @@ class Crud_model extends CI_Model {
         $data['authors'] = $authors;
         $data['company_name'] = html_escape($this->input->post('company_name'));
         $data['company_short_description'] = $this->input->post('company_short_description');
-        $data['date_published'] = $this->input->post('date_published');
+        $data['date_accomplished'] = $this->input->post('date_accomplished');
         $data['language'] = $this->input->post('language_made_in');
         $data['sub_category_id'] = $this->input->post('sub_category_id');
     
@@ -493,7 +493,7 @@ class Crud_model extends CI_Model {
         $data['authors'] = $authors;
         $data['company_name'] = html_escape($this->input->post('company_name'));
         $data['company_short_description'] = $this->input->post('company_short_description');
-        $data['date_published'] = $this->input->post('date_published');
+        $data['date_accomplished'] = $this->input->post('date_accomplished');
         $data['language'] = $this->input->post('language_made_in');
         $data['sub_category_id'] = $this->input->post('sub_category_id');
         

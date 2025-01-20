@@ -73,7 +73,7 @@
                 <div class="home-fact-box mr-md-auto ml-auto mr-auto">
                     <i class="fa fa-check float-left"></i>
                     <div class="text-box">
-                        <h4><?php echo get_phrase('defended_researches'); ?></h4>
+                        <h4><?php echo get_phrase('faculty_reviewed'); ?></h4>
                         <p><?php echo get_phrase('find_related_manuscript_for_you'); ?></p>
                     </div>
                 </div>
@@ -161,11 +161,11 @@
                                 echo implode(', ', array_map('html_escape', $authors));
                                 ?></span> <br>
                                 <span class="last-updated-date">
-                                    <?php echo get_phrase('date_published_:'); ?>
+                                    <?php echo get_phrase('date_accomplished_:'); ?>
                                     <?php
-                                    // Ensure date_published is in the right format before formatting
-                                    if (!empty($top_manuscript['date_published'])) {
-                                        echo date('d-M-Y', strtotime($top_manuscript['date_published']));
+                                    // Ensure date_accomplished is in the right format before formatting
+                                    if (!empty($top_manuscript['date_accomplished'])) {
+                                        echo date('d-M-Y', strtotime($top_manuscript['date_accomplished']));
                                     } else {
                                         echo get_phrase('no_date_available'); // Fallback message if no date is available
                                     }

@@ -15,20 +15,7 @@
         </div> <!-- end card -->
     </div><!-- end col-->
 </div>
-<div class="row">
-    <div class="col-xl-12">
-        <div class="card">
-            <div class="card-body">
 
-                <h4 class="header-title mb-4"><?php echo get_phrase('admin_revenue_this_year'); ?></h4>
-
-                <div class="mt-3 chartjs-chart" style="height: 320px;">
-                    <canvas id="task-area-chart"></canvas>
-                </div>
-            </div> <!-- end card body-->
-        </div> <!-- end card -->
-    </div><!-- end col-->
-</div>
 
 
 <div class="row">
@@ -88,6 +75,20 @@
             </div>
         </div> <!-- end card-box-->
     </div> <!-- end col-->
+</div>
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="header-title mb-4"><?php echo get_phrase('admin_revenue_this_year'); ?></h4>
+
+                <div class="mt-3 chartjs-chart" style="height: 320px;">
+                    <canvas id="task-area-chart"></canvas>
+                </div>
+            </div> <!-- end card body-->
+        </div> <!-- end card -->
+    </div><!-- end col-->
 </div>
 <div class="row">
     <div class="col-xl-4">

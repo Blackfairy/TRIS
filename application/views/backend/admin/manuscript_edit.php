@@ -114,9 +114,9 @@ $manuscript_details = $this->crud_model->get_manuscript_by_id($manuscript_id)->r
                                             </div>
 
                                             <div class="form-group row mb-3">
-                                                <label class="col-md-2 col-form-label" for="date_published"><?php echo get_phrase('date_published'); ?></label>
+                                                <label class="col-md-2 col-form-label" for="date_accomplished"><?php echo get_phrase('date_accomplished'); ?></label>
                                                 <div class="col-md-10">
-                                                    <input type="date" class="form-control" id="date_published" name="date_published" value="<?php echo $manuscript_details['date_published']; ?>">
+                                                    <input type="date" class="form-control" id="date_accomplished" name="date_accomplished" value="<?php echo $manuscript_details['date_accomplished']; ?>">
                                                 </div>
                                             </div>
 
@@ -422,15 +422,7 @@ $manuscript_details = $this->crud_model->get_manuscript_by_id($manuscript_id)->r
                                             <input type="text" class="form-control bootstrap-tag-input" id = "meta_keywords" name="meta_keywords" data-role="tagsinput" style="width: 100%;" value="<?php echo $manuscript_details['meta_keywords']; ?>"/>
                                         </div>
                                     </div>
-                                </div> <!-- end col -->
-                                <div class="col-xl-8">
-                                    <div class="form-group row mb-3">
-                                        <label class="col-md-2 col-form-label" for="meta_description"><?php echo get_phrase('meta_description'); ?></label>
-                                        <div class="col-md-10">
-                                            <textarea name="meta_description" class="form-control"><?php echo $manuscript_details['meta_description']; ?></textarea>
-                                        </div>
-                                    </div>
-                                </div> <!-- end col -->
+                                </div> <!-- end col -->                              
                             </div> <!-- end row -->
                         </div>
                         <div class="tab-pane" id="finish">

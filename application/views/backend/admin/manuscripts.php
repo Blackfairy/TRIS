@@ -147,7 +147,7 @@
                                 <th><?php echo get_phrase('title'); ?></th>
                                 <th><?php echo get_phrase('authors'); ?></th>
                                 <th><?php echo get_phrase('advisers'); ?></th>
-                                <th><?php echo get_phrase('date_published'); ?></th>
+                                <th><?php echo get_phrase('date_accomplished'); ?></th>
                                 <th><?php echo get_phrase('company_name'); ?></th>
                                 <th><?php echo get_phrase('category'); ?></th>
                                 <th><?php echo get_phrase('accessed_students'); ?></th>
@@ -210,7 +210,7 @@
 
                                     </td>
                                     <td>
-                                        <small class="text-muted"><?php echo date('F j, Y', strtotime($manuscript['date_published'])); ?></small>
+                                        <small class="text-muted"><?php echo date('F j, Y', strtotime($manuscript['date_accomplished'])); ?></small>
                                     </td>
                                     <td>
                                         <small class="text-muted"><?php echo !empty($company_name) ? $company_name : get_phrase('no_company_name'); ?></small>
