@@ -10,7 +10,7 @@ class Crud_model extends CI_Model {
         $this->output->set_header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
         $this->output->set_header('Pragma: no-cache');
     }
-    private function log_audit_trail($user_id, $action, $table_name, $record_id, $details = '') {
+    public function log_audit_trail($user_id, $action, $table_name, $record_id, $details = '') {
         // Fetch the user's email address based on the user_id
         $user = $this->db->get_where('users', array('id' => $user_id))->row();
         $user_email = $user ? $user->email : 'Unknown';

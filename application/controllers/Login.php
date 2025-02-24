@@ -123,7 +123,7 @@ class Login extends CI_Controller {
 
         $data['wishlist'] = json_encode(array());
         $data['watch_history'] = json_encode(array());
-        $data['date_added'] = strtotime(date("Y-m-d H:i:s"));
+        
         $social_links = array(
             'facebook' => "",
             'twitter'  => "",

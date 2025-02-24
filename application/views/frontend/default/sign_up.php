@@ -89,7 +89,7 @@
                             <div class="title"><?php echo get_phrase('registration_form'); ?></div>
                             <div class="subtitle"><?php echo get_phrase('sign_up_and_start_learning'); ?>.</div>
                         </div>
-                        <form action="<?php echo site_url('login/register'); ?>" method="post">
+                        <form id="registration-form" action="<?php echo site_url('login/register'); ?>" method="post">
                             <div class="content-box">
                                 <div class="basic-group">
                                     <div class="form-group">
@@ -174,7 +174,7 @@
                                 </div>
                             </div>
                             <div class="content-update-box">
-                                <button type="submit" class="btn"><?php echo get_phrase('sign_up'); ?></button>
+                                <button type="button" class="btn" id="sign-up-button" onclick="showCaptchaModal()" disabled><?php echo get_phrase('sign_up'); ?></button>
                             </div>
                             <div class="account-have text-center">
                                 <?php echo get_phrase('already_have_an_account'); ?>? <a href="javascript::" onclick="toggleForm('login')"><?php echo get_phrase('login'); ?></a>
@@ -315,51 +315,88 @@ function togglePassword(inputId) {
     input.type = input.type === 'password' ? 'text' : 'password';
 }
 
+function refreshCaptcha() {
+    const captchaImage = document.getElementById('captcha-image');
+    const refreshButton = document.querySelector('button[onclick="refreshCaptcha()"]');
+    refreshButton.disabled = true;
+    refreshButton.textContent = "Refreshing...";
+
+    // Make an AJAX call to fetch a new CAPTCHA
+    fetch('<?php echo site_url('login/refresh_captcha'); ?>')
+        .then(response => response.text())
+        .then(data => {
+            // Update the CAPTCHA image
+            captchaImage.innerHTML = data;
+
+            // Set a delay before enabling the button
+            setTimeout(() => {
+                refreshButton.disabled = false;
+                refreshButton.textContent = "Refresh CAPTCHA";
+            }, 2000); // 2-second delay
+        })
+        .catch(error => {
+            console.error("Error refreshing CAPTCHA:", error);
+
+            // Set a delay before enabling the button even if there's an error
+            setTimeout(() => {
+                refreshButton.disabled = false;
+                refreshButton.textContent = "Refresh CAPTCHA";
+            }, 2000); // 2-second delay
+        });
+}
+
+function validateForm() {
+    const firstName = document.getElementById('first_name').value.trim();
+    const lastName = document.getElementById('last_name').value.trim();
+    const email = document.getElementById('registration-email').value.trim();
+    const password = document.getElementById('registration-password').value.trim();
+    const dataPrivacyChecked = document.getElementById('data-privacy').checked;
+
+    const isFormValid = firstName && lastName && email && password && dataPrivacyChecked;
+    document.getElementById('sign-up-button').disabled = !isFormValid;
+}
+
+document.getElementById('first_name').addEventListener('input', validateForm);
+document.getElementById('last_name').addEventListener('input', validateForm);
+document.getElementById('registration-email').addEventListener('input', validateForm);
+document.getElementById('registration-password').addEventListener('input', validateForm);
+document.getElementById('data-privacy').addEventListener('change', validateForm);
+
+window.onload = function() {
+    refreshCaptcha();
+    validateForm();
+};
+
+function showCaptchaModal() {
+    $('#captchaModal').modal('show');
+}
+
+function submitForm() {
+    $('#captchaModal').modal('hide');
+    document.getElementById('registration-form').submit();
+}
 
 </script>
-<script>
-    function refreshCaptcha() {
-        const captchaImage = document.getElementById('captcha-image');
-        const refreshButton = document.querySelector('button[onclick="refreshCaptcha()"]');
-        refreshButton.disabled = true;
-        refreshButton.textContent = "Refreshing...";
 
-        // Make an AJAX call to fetch a new CAPTCHA
-        fetch('<?php echo site_url('login/refresh_captcha'); ?>')
-            .then(response => response.text())
-            .then(data => {
-                // Update the CAPTCHA image
-                captchaImage.innerHTML = data;
+<!-- hCaptcha Modal -->
+<div class="modal fade" id="captchaModal" tabindex="-1" role="dialog" aria-labelledby="captchaModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="captchaModalLabel">Captcha Verification</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="h-captcha" data-sitekey="191215ea-85e2-4c06-ae76-576ef66a7fa0"></div>
+                <button type="button" class="btn btn-secondary mt-3" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary mt-3" onclick="submitForm()">Verify and Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-                // Set a delay before enabling the button
-                setTimeout(() => {
-                    refreshButton.disabled = false;
-                    refreshButton.textContent = "Refresh CAPTCHA";
-                }, 2000); // 2-second delay
-            })
-            .catch(error => {
-                console.error("Error refreshing CAPTCHA:", error);
-
-                // Set a delay before enabling the button even if there's an error
-                setTimeout(() => {
-                    refreshButton.disabled = false;
-                    refreshButton.textContent = "Refresh CAPTCHA";
-                }, 2000); // 2-second delay
-            });
-    }
-
-    // Add an event listener to call refreshCaptcha when the page loads
-    window.onload = function() {
-        refreshCaptcha();
-    };
-
-    document.querySelector('form').addEventListener('submit', function (e) {
-        const dataPrivacyCheckbox = document.getElementById('data-privacy');
-        if (!dataPrivacyCheckbox.checked) {
-            e.preventDefault();
-            alert('You must agree to the Data Privacy and Terms and Conditions before proceeding.');
-        }
-    });
-
-</script>
+<!-- Include hCaptcha API -->
+<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 

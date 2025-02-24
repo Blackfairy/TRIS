@@ -10,21 +10,7 @@ class User_model extends CI_Model {
         $this->output->set_header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
         $this->output->set_header('Pragma: no-cache');
     }
-    private function log_audit_trail($user_id, $action, $table_name, $record_id, $details = '') {
-        // Fetch the user's email address based on the user_id
-        $user = $this->db->get_where('users', array('id' => $user_id))->row();
-        $user_email = $user ? $user->email : 'Unknown';
-
-        $data = array(
-            'user_email' => $user_email,
-            'action' => $action,
-            'table_name' => $table_name,
-            'record_id' => $record_id,
-            'details' => $details,
-            'timestamp' => date('Y-m-d H:i:s')
-        );
-        $this->db->insert('audit_trail', $data);
-    }
+   
 
     public function get_admin_details() {
         return $this->db->get_where('users', array('role_id' => 1));
@@ -59,9 +45,11 @@ class User_model extends CI_Model {
             $social_link['linkedin'] = html_escape($this->input->post('linkedin_link'));
             $data['social_links'] = json_encode($social_link);
             $data['biography'] = $this->input->post('biography');
-            $data['date_added'] = strtotime(date("Y-m-d H:i:s"));
             $data['wishlist'] = json_encode(array());
             $data['watch_history'] = json_encode(array());
+            $data['date_added'] = date("Y-m-d"); // Set the date in YYYY-MM-DD format
+            $data['last_modified'] = date("Y-m-d"); // Set the date in YYYY-MM-DD format
+
 
             // Get status from radio button
             $data['status'] = $this->input->post('status');
@@ -136,7 +124,8 @@ class User_model extends CI_Model {
             $data['social_links'] = json_encode($social_link);
             $data['biography'] = $this->input->post('biography');
             $data['title'] = html_escape($this->input->post('title'));
-            $data['last_modified'] = strtotime(date("Y-m-d H:i:s"));
+           
+            $data['last_modified'] = date("Y-m-d"); // Set the date in YYYY-MM-DD format
 
             // Update paypal keys
             $paypal_info = array();
