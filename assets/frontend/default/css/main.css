@@ -91,8 +91,8 @@ label {
 }
 .btn {
     color: #fff;
-    background-color: #ec5252;
-    border-color: #ec5252;
+    background-color: #007bff;
+    border-color: #007bff;
     padding: 11px 12px;
     font-size: 15px;
     border-radius: 2px;
@@ -717,8 +717,8 @@ select + .select2-container{
 }
 .sign-in-box .btn-sign-up{
     color: #fff;
-    background-color: #ec5252;
-    border: 1px solid #ec5252;
+    background-color: #007bff;
+    border: 1px solid #007bff;
 }
 .sign-in-box .btn-sign-up:hover,
 .sign-in-box .btn-sign-up:focus{
@@ -3479,8 +3479,8 @@ section.user-dashboard-area {
 
 .user-dashboard-content .content-update-box button {
     color: #fff;
-    background-color: #ec5252;
-    border-color: #ec5252;
+    background-color: #007bff;
+    border-color: #007bff;
     padding: 11px 12px;
     font-size: 15px;
     border-radius: 2px;

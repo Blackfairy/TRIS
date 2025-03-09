@@ -25,7 +25,7 @@
 
                     <form class="" action="<?php echo site_url('home/search'); ?>" method="get">
                         <div class="input-group">
-                            <input type="text" class="form-control" name="query" placeholder="<?php echo get_phrase('what_do_you_want_to_find'); ?>?">
+                            <input type="text" class="form-control" name="query" placeholder="<?php echo get_phrase('search_research'); ?>...">
                             <div class="input-group-append">
                                 <button class="btn" type="submit"><i class="fas fa-search"></i></button>
                             </div>
@@ -63,8 +63,8 @@
                         <h4><?php
                         $status_wise_manuscripts = $this->crud_model->get_status_wise_manuscripts();
                         $number_of_manuscripts = $status_wise_manuscripts['active']->num_rows();
-                        echo $number_of_manuscripts.' '.get_phrase('online_manuscripts'); ?></h4>
-                        <p><?php echo get_phrase('explore_a_variety_of_topics'); ?></p>
+                        echo $number_of_manuscripts.' '.get_phrase('online_research'); ?></h4>
+                        <p><?php echo get_phrase('explore_a_variety_of_researches'); ?></p>
                     </div>
                 </div>
             </div>
@@ -74,7 +74,7 @@
                     <i class="fa fa-check float-left"></i>
                     <div class="text-box">
                         <h4><?php echo get_phrase('faculty_reviewed'); ?></h4>
-                        <p><?php echo get_phrase('find_related_manuscript_for_you'); ?></p>
+                        <p><?php echo get_phrase('find_related_researches_for_you'); ?></p>
                     </div>
                 </div>
             </div>
@@ -84,7 +84,7 @@
                     <i class="fa fa-clock float-left"></i>
                     <div class="text-box">
                         <h4><?php echo get_phrase('lifetime_access'); ?></h4>
-                        <p><?php echo get_phrase('access_conveniently_on_your_schedule'); ?></p>
+                        <p><?php echo get_phrase('access_conveniently_online'); ?></p>
                     </div>
                 </div>
             </div>
@@ -96,7 +96,7 @@
     <div class="container-lg">
         <div class="row">
             <div class="col">
-                <h2 class="manuscript-carousel-title"><?php echo get_phrase('featured_manuscripts'); ?></h2>
+                <h2 class="manuscript-carousel-title"><?php echo get_phrase('featured_researches'); ?></h2>
                 <div class="manuscript-carousel">
                     <?php $top_manuscripts = $this->crud_model->get_top_manuscripts()->result_array();
                     $cart_items = $this->session->userdata('cart_items');
@@ -239,7 +239,7 @@
     <div class="container-lg">
         <div class="row">
             <div class="col">
-                <h2 class="manuscript-carousel-title"><?php echo get_phrase('top').' 10 '.get_phrase('latest_manuscripts'); ?></h2>
+                <h2 class="manuscript-carousel-title"><?php echo get_phrase('top').' 10 '.get_phrase('latest_researches'); ?></h2>
                 <div class="manuscript-carousel">
                     <?php
                     $latest_manuscripts = $this->crud_model->get_latest_10_manuscript();

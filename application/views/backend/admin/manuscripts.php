@@ -2,9 +2,9 @@
     <div class="col-xl-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="page-title"> <i class="mdi mdi-apple-keyboard-command title_icon"></i> <?php echo get_phrase('manuscripts'); ?>
-                    <a href="<?php echo site_url('admin/manuscript_form/add_manuscript'); ?>" class="btn btn-outline-primary btn-rounded alignToTitle"><i class="mdi mdi-plus"></i><?php echo get_phrase('add_new_manuscript'); ?></a>
-                    <a href="<?php echo site_url('admin/manuscripts'); ?>" class="btn btn-outline-success btn-rounded alignToTitle">
+                <h4 class="page-title"> <i class="mdi mdi-apple-keyboard-command title_icon"></i> <?php echo get_phrase('researches'); ?>
+                    <a href="<?php echo site_url('admin/manuscript_form/add_manuscript'); ?>" class="btn btn-outline-primary btn-rounded alignToTitle"><i class="mdi mdi-plus"></i><?php echo get_phrase('add_new_research'); ?></a>
+                    <a href="<?php echo site_url('admin/export_manuscripts'); ?>" class="btn btn-outline-success btn-rounded alignToTitle">
                         <i class="mdi mdi-file-excel"></i> Export to Excel
                     </a>
 
@@ -24,7 +24,7 @@
                                 <div class="card-body text-center">
                                     <i class="dripicons-link text-muted" style="font-size: 24px;"></i>
                                     <h3><span><?php echo $status_wise_manuscripts['active']->num_rows(); ?></span></h3>
-                                    <p class="text-muted font-15 mb-0"><?php echo get_phrase('active_manuscripts'); ?></p>
+                                    <p class="text-muted font-15 mb-0"><?php echo get_phrase('active_researches'); ?></p>
                                 </div>
                             </div>
                         </a>
@@ -36,7 +36,7 @@
                                 <div class="card-body text-center">
                                     <i class="dripicons-link-broken text-muted" style="font-size: 24px;"></i>
                                     <h3><span><?php echo $status_wise_manuscripts['pending']->num_rows(); ?></span></h3>
-                                    <p class="text-muted font-15 mb-0"><?php echo get_phrase('pending_manuscripts'); ?></p>
+                                    <p class="text-muted font-15 mb-0"><?php echo get_phrase('under_review_researches'); ?></p>
                                 </div>
                             </div>
                         </a>
@@ -48,7 +48,7 @@
                                 <div class="card-body text-center">
                                     <i class="dripicons-star text-muted" style="font-size: 24px;"></i>
                                     <h3><span><?php echo $this->crud_model->get_free_and_paid_manuscripts('free')->num_rows(); ?></span></h3>
-                                    <p class="text-muted font-15 mb-0"><?php echo get_phrase('free_manuscripts'); ?></p>
+                                    <p class="text-muted font-15 mb-0"><?php echo get_phrase('free_researches'); ?></p>
                                 </div>
                             </div>
                         </a>
@@ -60,7 +60,7 @@
                                 <div class="card-body text-center">
                                     <i class="dripicons-tags text-muted" style="font-size: 24px;"></i>
                                     <h3><span><?php echo $this->crud_model->get_free_and_paid_manuscripts('paid')->num_rows(); ?></span></h3>
-                                    <p class="text-muted font-15 mb-0"><?php echo get_phrase('paid_manuscripts'); ?></p>
+                                    <p class="text-muted font-15 mb-0"><?php echo get_phrase('paid_researches'); ?></p>
                                 </div>
                             </div>
                         </a>
@@ -75,9 +75,9 @@
     <div class="col-xl-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="mb-3 header-title"><?php echo get_phrase('manuscript_list'); ?></h4>
+                <h4 class="mb-3 header-title"><?php echo get_phrase('research_list'); ?></h4>
                 <form class="row justify-content-center" action="<?php echo site_url('admin/manuscripts'); ?>" method="get">
-                    <!-- Manuscript Categories -->
+                       <!-- Manuscript Categories -->
                     <div class="col-xl-3">
                         <div class="form-group">
                             <label for="category_id"><?php echo get_phrase('categories'); ?></label>
@@ -94,15 +94,14 @@
                         </select>
                     </div>
                 </div>
-
                 <!-- Manuscript Status -->
                 <div class="col-xl-2">
                     <div class="form-group">
                         <label for="status"><?php echo get_phrase('status'); ?></label>
                         <select class="form-control select2" data-toggle="select2" name="status" id = 'status'>
                             <option value="all" <?php if($selected_status == 'all') echo 'selected'; ?>><?php echo get_phrase('all'); ?></option>
-                            <option value="active" <?php if($selected_status == 'active') echo 'selected'; ?>><?php echo get_phrase('active'); ?></option>
-                            <option value="pending" <?php if($selected_status == 'pending') echo 'selected'; ?>><?php echo get_phrase('pending'); ?></option>
+                            <option value="active" <?php if($selected_status == 'active') echo 'selected'; ?>><?php echo get_phrase('active_researches'); ?></option>
+                            <option value="pending" <?php if($selected_status == 'pending') echo 'selected'; ?>><?php echo get_phrase('under_review_researches'); ?></option>
                         </select>
                     </div>
                 </div>
@@ -132,9 +131,25 @@
                     </div>
                 </div>
 
+
                 <div class="col-xl-2">
                     <label for=".." class="text-white"><?php echo get_phrase('..'); ?></label>
                     <button type="submit" class="btn btn-primary btn-block" name="button"><?php echo get_phrase('filter'); ?></button>
+                </div>
+
+                
+                <!-- Manuscript Year Range -->
+                <div class="col-xl-2">
+                    <div class="form-group">
+                        <label for="year_from"><?php echo get_phrase('from_year'); ?></label>
+                        <input type="number" class="form-control" name="year_from" id="year_from" placeholder="<?php echo get_phrase('from_year'); ?>" value="<?php echo $selected_year_from; ?>">
+                    </div>
+                </div>
+                <div class="col-xl-2">
+                    <div class="form-group">
+                        <label for="year_to"><?php echo get_phrase('to_year'); ?></label>
+                        <input type="number" class="form-control" name="year_to" id="year_to" placeholder="<?php echo get_phrase('to_year'); ?>" value="<?php echo $selected_year_to; ?>">
+                    </div>
                 </div>
             </form>
 
@@ -147,10 +162,10 @@
                                 <th><?php echo get_phrase('title'); ?></th>
                                 <th><?php echo get_phrase('authors'); ?></th>
                                 <th><?php echo get_phrase('advisers'); ?></th>
-                                <th><?php echo get_phrase('date_accomplished'); ?></th>
+                                <th><?php echo get_phrase('completion_year'); ?></th>
                                 <th><?php echo get_phrase('company_name'); ?></th>
-                                <th><?php echo get_phrase('category'); ?></th>
-                                <th><?php echo get_phrase('accessed_students'); ?></th>
+                                <th><?php echo get_phrase('category_of_research'); ?></th>
+                                <th><?php echo get_phrase('engaged_students'); ?></th>
                                 <th><?php echo get_phrase('status'); ?></th>
                                 <th><?php echo get_phrase('price'); ?></th>
                                 <th><?php echo get_phrase('actions'); ?></th>
@@ -245,34 +260,33 @@
                                             <i class="mdi mdi-dots-vertical"></i>
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="<?php echo site_url('home/manuscript/'.slugify($manuscript['title']).'/'.$manuscript['id']); ?>" target="_blank"><?php echo get_phrase('view_manuscript_on_frontend');?></a></li>
-                                            <li><a class="dropdown-item" href="<?php echo site_url('admin/manuscript_form/manuscript_edit/'.$manuscript['id']); ?>"><?php echo get_phrase('edit_this_manuscript');?></a></li>
+                                            <li><a class="dropdown-item" href="<?php echo site_url('home/manuscript/'.slugify($manuscript['title']).'/'.$manuscript['id']); ?>"><?php echo get_phrase('view_research_on_frontend');?></a></li>
+                                            <li><a class="dropdown-item" href="<?php echo site_url('admin/manuscript_form/manuscript_edit/'.$manuscript['id']); ?>"><?php echo get_phrase('review_this_research');?></a></li>
                                             <li><a class="dropdown-item" href="<?php echo site_url('admin/manuscript_form/manuscript_edit/'.$manuscript['id']); ?>"><?php echo get_phrase('file');?></a></li>
-                                            <li><a class="dropdown-item" href="#" onclick="confirm_modal('<?php echo site_url('admin/manuscript_actions/delete/'.$manuscript['id']); ?>');"><?php echo get_phrase('delete'); ?></a></li>
                                             <li>
                                                   <?php if ($manuscript['status'] == 'active'): ?>
                                                       <?php if ($manuscript['user_id'] != $this->session->userdata('user_id')): ?>
-                                                          <a class="dropdown-item" href="#" onclick="showAjaxModal('<?php echo base_url();?>modal/popup/mail_on_manuscript_status_changing_modal/pending/<?php echo $manuscript['id']; ?>/<?php echo $selected_category_id; ?>/<?php echo $selected_instructor_id; ?>/<?php echo $selected_price; ?>/<?php echo $selected_status;?>', '<?php echo get_phrase('inform_instructor'); ?>');">
-                                                              <?php echo get_phrase('mark_as_pending');?>
+                                                          <a class="dropdown-item" href="#" onclick="showAjaxModal('<?php echo base_url();?>modal/popup/mail_on_manuscript_status_changing_modal/pending/<?php echo $manuscript['id']; ?>/<?php echo $selected_category_id; ?>/<?php echo $selected_instructor_id; ?>/<?php echo $selected_price; ?>/<?php echo $selected_status;?>', '<?php echo get_phrase('inform_researcher'); ?>');">
+                                                              <?php echo get_phrase('mark_as_in_progress');?>
                                                           </a>
                                                       <?php else: ?>
-                                                          <a class="dropdown-item" href="#" onclick="confirm_modal('<?php echo site_url();?>admin/change_manuscript_status_for_admin/pending/<?php echo $manuscript['id']; ?>/<?php echo $selected_category_id; ?>/<?php echo $selected_instructor_id; ?>/<?php echo $selected_price; ?>/<?php echo $selected_status;?>', '<?php echo get_phrase('inform_instructor'); ?>');">
-                                                              <?php echo get_phrase('mark_as_pending');?>
+                                                          <a class="dropdown-item" href="#" onclick="confirm_modal('<?php echo site_url();?>admin/change_manuscript_status_for_admin/pending/<?php echo $manuscript['id']; ?>/<?php echo $selected_category_id; ?>/<?php echo $selected_instructor_id; ?>/<?php echo $selected_price; ?>/<?php echo $selected_status;?>', '<?php echo get_phrase('inform_researcher'); ?>');">
+                                                              <?php echo get_phrase('mark_as_in_progress');?>
                                                           </a>
                                                       <?php endif; ?>
                                                   <?php else: ?>
                                                       <?php if ($manuscript['user_id'] != $this->session->userdata('user_id')): ?>
-                                                          <a class="dropdown-item" href="#" onclick="showAjaxModal('<?php echo base_url();?>modal/popup/mail_on_manuscript_status_changing_modal/active/<?php echo $manuscript['id']; ?>/<?php echo $selected_category_id; ?>/<?php echo $selected_instructor_id; ?>/<?php echo $selected_price; ?>/<?php echo $selected_status;?>', '<?php echo get_phrase('inform_instructor'); ?>');">
-                                                              <?php echo get_phrase('mark_as_active');?>
+                                                          <a class="dropdown-item" href="#" onclick="showAjaxModal('<?php echo base_url();?>modal/popup/mail_on_manuscript_status_changing_modal/active/<?php echo $manuscript['id']; ?>/<?php echo $selected_category_id; ?>/<?php echo $selected_instructor_id; ?>/<?php echo $selected_price; ?>/<?php echo $selected_status;?>', '<?php echo get_phrase('inform_researcher'); ?>');">
+                                                              <?php echo get_phrase('mark_as_active_research');?>
                                                           </a>
                                                       <?php else: ?>
-                                                          <a class="dropdown-item" href="#" onclick="confirm_modal('<?php echo site_url();?>admin/change_manuscript_status_for_admin/active/<?php echo $manuscript['id']; ?>/<?php echo $selected_category_id; ?>/<?php echo $selected_instructor_id; ?>/<?php echo $selected_price; ?>/<?php echo $selected_status;?>', '<?php echo get_phrase('inform_instructor'); ?>');">
-                                                              <?php echo get_phrase('mark_as_active');?>
+                                                          <a class="dropdown-item" href="#" onclick="confirm_modal('<?php echo site_url();?>admin/change_manuscript_status_for_admin/active/<?php echo $manuscript['id']; ?>/<?php echo $selected_category_id; ?>/<?php echo $selected_instructor_id; ?>/<?php echo $selected_price; ?>/<?php echo $selected_status;?>', '<?php echo get_phrase('inform_researcher'); ?>');">
+                                                              <?php echo get_phrase('mark_as_active_research');?>
                                                           </a>
                                                       <?php endif; ?>
                                                   <?php endif; ?>
                                               </li>
-                                              <li><a class="dropdown-item" href="#" onclick="confirm_modal('<?php echo site_url('admin/manuscript_actions/delete/'.$manuscript['id']); ?>');"><?php echo get_phrase('delete'); ?></a></li>
+                                              <li><a class="dropdown-item" href="#" onclick="confirm_modal('<?php echo site_url('admin/manuscript_actions/delete/'.$manuscript['id']); ?>');"><?php echo get_phrase('archive'); ?></a></li>
                                         </ul>
                                     </div>
                                     </td>
@@ -281,7 +295,7 @@
                         </tbody>
                     </table>
                 <?php else: ?>
-                    <p><?php echo get_phrase('no_manuscripts_found'); ?></p>
+                    <p><?php echo get_phrase('no_research_found'); ?></p>
                 <?php endif; ?>
             </div>
 

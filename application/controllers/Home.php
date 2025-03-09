@@ -102,9 +102,8 @@ class Home extends CI_Controller {
         $layout = $this->input->post('layout');
         $this->session->set_userdata('layout', $layout);
     }
-
     public function manuscript($slug = "", $manuscript_id = "") {
-        if ($this->session->userdata('user_login') != true) {
+        if ($this->session->userdata('user_login') != true && $this->session->userdata('admin_login') != true) {
             redirect(site_url('home/login'), 'refresh');
         }
         $this->access_denied_manuscripts($manuscript_id);
@@ -113,7 +112,6 @@ class Home extends CI_Controller {
         $page_data['page_title'] = get_phrase('manuscript');
         $this->load->view('frontend/'.get_frontend_settings('theme').'/index', $page_data);
     }
-
     public function researcher_page($researcher_id = "") {
         $page_data['page_name'] = "researcher_page";
         $page_data['page_title'] = get_phrase('researcher_page');

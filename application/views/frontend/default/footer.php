@@ -7,10 +7,10 @@
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
                     <a href="index.html">
-                        <h1 class="text-white fw-bold d-block">T<span class="text-primary">RIS</span> </h1>
+                        <h1 class="text-white fw-bold d-block" style="color: #f5ec3a!important;">T<span class="text-primary">RIS</span> </h1>
                     </a>
                     <p class="mt-4 text-light">Innovate with Technological Research Information System, where Technology tailored to match your individual learning pace and needs.</p>
-                    <div class="d-flex hightech-link">
+                    <div class="d-flex hightech-link" style="justify-content: center !important;">
                         <a href="" class="btn-light nav-fill btn btn-square rounded-circle me-2" style="background-color:white; border-color: #000000;"><i class="fab fa-facebook-f text-primary"></i></a>
                         <a href="" class="btn-light nav-fill btn btn-square rounded-circle me-2"style="background-color:white; border-color: #000000;"><i class="fab fa-twitter text-primary"></i></a>
                         <a href="" class="btn-light nav-fill btn btn-square rounded-circle me-2"style="background-color:white; border-color: #000000;"><i class="fab fa-instagram text-primary"></i></a>
@@ -34,7 +34,7 @@
                 <div class="col-lg-3 col-md-6">
                     <a href="#" class="h3 text-primary">Contact Us</a>
                     <div class="text-white mt-4 d-flex flex-column contact-link">
-                        <a href="#" class="pb-3 text-light border-bottom border-primary"><i class="fas fa-map-marker-alt text-primary me-2"></i> CCIS, University of Makati, Philippines</a>
+                        <a href="#" class="pb-3 text-light border-bottom border-primary"><i class="fas fa-map-marker-alt text-primary me-2"></i>University of Makati, Philippines</a>
                         <a href="#" class="py-3 text-light border-bottom border-primary"><i class="fas fa-phone-alt text-primary me-2"></i> 888 888 8888 | 0988888888 </a>
                         <a href="#" class="py-3 text-light border-bottom border-primary"><i class="fas fa-envelope text-primary me-2"></i>umak@studentresearcher.online</a>
                     </div>
@@ -54,7 +54,7 @@
             <hr class="text-light mt-5 mb-4">
             <div class="row">
                 <div class="col-md-6 text-center text-md-start">
-                    <span class="text-light"><a href="#" class="text-primary"><i class="fas fa-copyright text-primary me-2"></i>2024</a>, All right reserved.</span>
+                    <span class="text-light"><a href="#" class="text-primary"><i class="fas fa-copyright text-primary me-2"></i>2025</a>, All right reserved.</span>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <span class="text-light">Designed By<a href="#" class="text-primary"> Group 10</a></span>

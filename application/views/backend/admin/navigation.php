@@ -133,3 +133,16 @@
 		<?php endif; ?>
 	    </ul>
 </div>
+<style>
+@media (max-width: 767.98px) {
+    body[data-layout=detached].sidebar-enable .left-side-menu {
+        position: fixed;
+        padding-top: 70px !important;
+        left: 0;
+        overflow-y: auto;
+    }
+    .left-side-menu.left-side-menu-detached {
+        padding-top: 70px;
+    }
+}
+</style>

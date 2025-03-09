@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="card">
             <div class="card-body">
                 <h4 class="page-title"> <i class="mdi mdi-apple-keyboard-command title_icon"></i> <?php echo get_phrase('audit_trail'); ?>
-                    <a href="<?php echo site_url('admin/audit_trail'); ?>" class="btn btn-outline-success btn-rounded alignToTitle">
+                    <a href="<?php echo site_url('admin/spreadhseet_format_download'); ?>" class="btn btn-outline-success btn-rounded alignToTitle">
                         <i class="mdi mdi-file-excel"></i> Export to Excel
                     </a>
 

@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="page-title"> <i class="mdi mdi-apple-keyboard-command title_icon"></i> <?php echo get_phrase('accessed_history'); ?></h4>
-                <a href="<?php echo site_url('admin/enrol_history'); ?>" class="btn btn-outline-success btn-rounded alignToTitle">
+                <a href="<?php echo site_url('admin/export_accessed_history'); ?>" class="btn btn-outline-success btn-rounded alignToTitle">
                         <i class="mdi mdi-file-excel"></i> Export to Excel
                     </a>
             </div> <!-- end card body-->

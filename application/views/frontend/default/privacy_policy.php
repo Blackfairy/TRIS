@@ -1,5 +1,5 @@
 <section class="category-header-area">
-    <div class="container-lg">
+    <div class="container-lg" >
         <div class="row">
             <div class="col">
                 <nav>
@@ -21,9 +21,9 @@
 </section>
 
 <section class="category-manuscript-list-area">
-    <div class="container">
+    <div class="container" style="background-color: white;">
         <div class="row">
-        <div class="col" style="padding: 35px;color: white;">
+        <div class="col" style="padding: 35px;color: black;">
                 <?php echo get_frontend_settings('privacy_policy'); ?>
             </div>
         </div>

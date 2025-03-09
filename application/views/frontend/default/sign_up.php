@@ -13,7 +13,6 @@
                     </ol>
                 </nav>
                 <h1 class="category-name">
-                    <?php echo get_phrase('register_yourself'); ?>
                 </h1>
             </div>
         </div>
@@ -104,73 +103,103 @@
                                         <label for="registration-email"><span class="input-field-icon"><i class="fas fa-envelope"></i></span> <?php echo get_phrase('email'); ?>:</label>
                                         <input type="email" class="form-control" name="email" id="registration-email" placeholder="<?php echo get_phrase('email'); ?>" value="" required>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="registration-password">
-                                            <span class="input-field-icon"><i class="fas fa-lock"></i></span>
-                                            <?php echo get_phrase('password'); ?>:
-                                        </label>
-                                        <input
-                                            type="password"
-                                            class="form-control"
-                                            name="password"
-                                            id="registration-password"
-                                            placeholder="<?php echo get_phrase('password'); ?>"
-                                            onkeyup="validatePasswordStrength()"
-                                            required
-                                        >
-                                        <input
-                                            type="checkbox"
-                                            id="toggle-registration-password"
-                                            onclick="togglePassword('registration-password')">
-                                        Show Password
-                                    </div>
 
-                                    <!-- Password Strength Progress Bar -->
-                                    <div class="form-group">
-                                        <label for="password-strength"><?php echo get_phrase('password_strength'); ?>:</label>
-                                        <div class="progress" style="height: 20px; background-color: #f5f5f5; border-radius: 5px;">
-                                            <div
-                                                class="progress-bar"
-                                                id="password-strength-bar"
-                                                role="progressbar"
-                                                style="width: 0%; transition: width 0.4s;"
-                                                aria-valuenow="0"
-                                                aria-valuemin="0"
-                                                aria-valuemax="100">
-                                            </div>
-                                        </div>
-                                        <small id="password-strength-text" class="form-text text-muted mt-2"></small>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="checkbox" id="data-privacy" name="data_privacy" required>
-                                        <label for="data-privacy">
-                                            I agree to the 
-                                            <a href="<?php echo site_url('home/privacy_policy'); ?>"target="_blank">Data Privacy</a> 
-                                            and 
-                                            <a href="<?php echo site_url('home/terms_and_condition'); ?>"  target="_blank">Terms and Conditions</a>.
-                                        </label>
-                                    </div>
+<!-- Enhanced Password Validation Messages -->
+<div class="form-group" id="password-validation-messages" style="display: none;">
+    <div id="message" style="margin-top: 10px; border: 1px solid #ccc; padding: 15px; border-radius: 8px; background: #f9f9f9;">
+        <h4 style="margin-bottom: 10px;">Password must contain:</h4>
+        <table style="width: 100%;">
+            <tr>
+                <td id="letter" class="invalid" style="padding: 5px;">
+                    <i class="fas fa-times-circle" style="color: red;"></i> A <b>lowercase</b> letter
+                </td>
+                <td id="capital" class="invalid" style="padding: 5px;">
+                    <i class="fas fa-times-circle" style="color: red;"></i> A <b>uppercase</b> letter
+                </td>
+            </tr>
+            <tr>
+                <td id="number" class="invalid" style="padding: 5px;">
+                    <i class="fas fa-times-circle" style="color: red;"></i> A <b>number or special character</b>
+                </td>
+                <td id="length" class="invalid" style="padding: 5px;">
+                    <i class="fas fa-times-circle" style="color: red;"></i> Minimum <b>16 characters</b>
+                </td>
+            </tr>
+        </table>
+    </div>
+     <!-- Password Strength Progress Bar -->
+     <div class="form-group">
+        <label for="password-strength"><?php echo get_phrase('password_strength'); ?>:</label>
+        <div class="progress" style="height: 20px; background-color: #f5f5f5; border-radius: 5px;">
+            <div
+                class="progress-bar"
+                id="password-strength-bar"
+                role="progressbar"
+                style="width: 0%; transition: width 0.4s;"
+                aria-valuenow="0"
+                aria-valuemin="0"
+                aria-valuemax="100">
+            </div>
+        </div>
+        <small id="password-strength-text" class="form-text text-muted mt-2"></small>
+    </div>
+</div>                                    
+<!-- Password Input Field with Event Listener -->
+<div class="form-group">
+    <label for="registration-password">
+        <span class="input-field-icon"><i class="fas fa-lock"></i></span>
+        <?php echo get_phrase('password'); ?>:
+    </label>
+    <input
+        type="password"
+        class="form-control"
+        name="password"
+        id="registration-password"
+        placeholder="<?php echo get_phrase('password'); ?>"
+        onfocus="showPasswordValidationMessages()"
+        onblur="hidePasswordValidationMessages()"
+        onkeyup="validatePasswordStrength()"
+        required
+    >
+    <input
+        type="checkbox"
+        id="toggle-registration-password"
+        onclick="togglePassword('registration-password')">
+    Show Password
+</div>
+<!-- Add the confirm password input field -->
+<div class="form-group">
+    <label for="confirm-password">
+        <span class="input-field-icon"><i class="fas fa-lock"></i></span>
+        <?php echo get_phrase('confirm_password'); ?>:
+    </label>
+    <input
+        type="password"
+        class="form-control"
+        name="confirm_password"
+        id="confirm-password"
+        placeholder="<?php echo get_phrase('confirm_password'); ?>"
+        onkeyup="validateConfirmPassword()"
+        required
+    >
+    <input
+        type="checkbox"
+        id="toggle-confirm-password"
+        onclick="togglePassword('confirm-password')">
+    Show Password
+    <small id="confirm-password-message" class="form-text text-muted mt-2"></small>
+</div>
+ <!-- Update the checkbox label to trigger the modals -->
+<div class="form-group">
+    <input type="checkbox" id="data-privacy" name="data_privacy" required>
+    <label for="data-privacy">
+        I agree to the 
+        <a href="javascript:void(0);" data-toggle="modal" data-target="#privacyPolicyModal">Data Privacy</a> 
+        and 
+        <a href="javascript:void(0);" data-toggle="modal" data-target="#termsAndConditionsModal">Terms and Conditions</a>.
+    </label>
+</div>
 
-                                    <!-- Enhanced Password Validation Messages -->
-                                    <div class="form-group">
-                                    <div id="message" style="margin-top: 10px; border: 1px solid #ccc; padding: 15px; border-radius: 8px; background: #f9f9f9;">
-                                        <h4 style="margin-bottom: 10px;">Password must contain:</h4>
-                                        <ul style="list-style-type: none; padding: 0;">
-                                            <li id="letter" class="invalid" style="margin-bottom: 5px;">
-                                                <i class="fas fa-times-circle" style="color: red;"></i> A <b>lowercase</b> letter
-                                            </li>
-                                            <li id="capital" class="invalid" style="margin-bottom: 5px;">
-                                                <i class="fas fa-times-circle" style="color: red;"></i> A <b>uppercase</b> letter
-                                            </li>
-                                            <li id="number" class="invalid" style="margin-bottom: 5px;">
-                                                <i class="fas fa-times-circle" style="color: red;"></i> A <b>number or special character</b>
-                                            </li>
-                                            <li id="length" class="invalid" style="margin-bottom: 5px;">
-                                                <i class="fas fa-times-circle" style="color: red;"></i> Minimum <b>16 characters</b>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="content-update-box">
@@ -230,6 +259,13 @@
 
 <!-- Add JavaScript for password validation and toggle password visibility -->
 <script>
+    function showPasswordValidationMessages() {
+    document.getElementById('password-validation-messages').style.display = 'block';
+}
+
+function hidePasswordValidationMessages() {
+    document.getElementById('password-validation-messages').style.display = 'none';
+}
 function toggleForm(form_type) {
   if (form_type === 'login') {
     document.querySelector('.login-form').style.display = 'block';
@@ -254,7 +290,21 @@ function togglePassword(fieldId) {
     field.type = "password";
   }
 }
+function validateConfirmPassword() {
+    const password = document.getElementById('registration-password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
+    const message = document.getElementById('confirm-password-message');
 
+    if (confirmPassword === password) {
+        message.textContent = 'Passwords match';
+        message.style.color = 'green';
+    } else {
+        message.textContent = 'Passwords do not match';
+        message.style.color = 'red';
+    }
+
+    validateForm();
+}
 function validatePasswordStrength() {
     const password = document.getElementById('registration-password').value;
     const progressBar = document.getElementById('password-strength-bar');
@@ -344,15 +394,36 @@ function refreshCaptcha() {
             }, 2000); // 2-second delay
         });
 }
+let privacyPolicyAgreed = false;
+let termsAndConditionsAgreed = false;
+
+function agreePrivacyPolicy() {
+    privacyPolicyAgreed = true;
+    checkAgreements();
+}
+
+function agreeTermsAndConditions() {
+    termsAndConditionsAgreed = true;
+    checkAgreements();
+}
+
+function checkAgreements() {
+    if (privacyPolicyAgreed && termsAndConditionsAgreed) {
+        document.getElementById('data-privacy').checked = true;
+    }
+    validateForm();
+}
 
 function validateForm() {
     const firstName = document.getElementById('first_name').value.trim();
     const lastName = document.getElementById('last_name').value.trim();
     const email = document.getElementById('registration-email').value.trim();
     const password = document.getElementById('registration-password').value.trim();
+    const confirmPassword = document.getElementById('confirm-password').value.trim();
     const dataPrivacyChecked = document.getElementById('data-privacy').checked;
 
-    const isFormValid = firstName && lastName && email && password && dataPrivacyChecked;
+    const passwordsMatch = password === confirmPassword;
+    const isFormValid = firstName && lastName && email && password && confirmPassword && passwordsMatch && dataPrivacyChecked;
     document.getElementById('sign-up-button').disabled = !isFormValid;
 }
 
@@ -360,6 +431,7 @@ document.getElementById('first_name').addEventListener('input', validateForm);
 document.getElementById('last_name').addEventListener('input', validateForm);
 document.getElementById('registration-email').addEventListener('input', validateForm);
 document.getElementById('registration-password').addEventListener('input', validateForm);
+document.getElementById('confirm-password').addEventListener('input', validateForm);
 document.getElementById('data-privacy').addEventListener('change', validateForm);
 
 window.onload = function() {
@@ -392,6 +464,47 @@ function submitForm() {
                 <div class="h-captcha" data-sitekey="191215ea-85e2-4c06-ae76-576ef66a7fa0"></div>
                 <button type="button" class="btn btn-secondary mt-3" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary mt-3" onclick="submitForm()">Verify and Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add modals for Privacy Policy and Terms and Conditions -->
+<div class="modal fade" id="privacyPolicyModal" tabindex="-1" role="dialog" aria-labelledby="privacyPolicyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="privacyPolicyModalLabel">Privacy Policy</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <?php echo get_frontend_settings('privacy_policy'); ?>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="agreePrivacyPolicy()">Agree</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="termsAndConditionsModal" tabindex="-1" role="dialog" aria-labelledby="termsAndConditionsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="termsAndConditionsModalLabel">Terms and Conditions</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <?php echo get_frontend_settings('terms_and_condition'); ?>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="agreeTermsAndConditions()">Agree</button>
             </div>
         </div>
     </div>

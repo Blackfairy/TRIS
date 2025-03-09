@@ -1,5 +1,5 @@
 <!-- Topbar Start -->
-<div class="navbar-custom topnav-navbar topnav-navbar-dark" style="z-index: 99 !important;">
+<div class="navbar-custom topnav-navbar topnav-navbar-dark" style="z-index: 99 !important; background-color: #111c4e !important;">
     <div class="container-fluid">
 
         <!-- LOGO -->
@@ -14,9 +14,21 @@
 
         <ul class="list-unstyled topbar-right-menu float-right mb-0">
 
+            <!-- Dark Mode Toggle Button -->
+            <li class="dropdown notification-list">
+                <a class="nav-link dropdown-toggle nav-user arrow-none mr-0" id="dark-mode-toggle" href="#" role="button" aria-haspopup="true" aria-expanded="false" style=" background-color: #111c4e !important;">
+                <span class="account-user-avatar">
+                    <img src="<?php echo base_url('uploads/thumbnails/night-mode.png'); ?>" alt="Toggle Dark Mode" class="rounded-circle" height="40">
+                </span>
+                <span  style="color: #fff;">
+                    <span class="account-user-name">Dark Mode</span>
+                </span>
+            </a>
+            </li>
+
             <li class="dropdown notification-list">
                 <a class="nav-link dropdown-toggle nav-user arrow-none mr-0" data-toggle="dropdown" id="topbar-userdrop"
-                href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                href="#" role="button" aria-haspopup="true" aria-expanded="false" style=" background-color: #111c4e !important;">
                 <span class="account-user-avatar">
                     <img src="<?php echo $this->user_model->get_user_image_url($this->session->userdata('user_id')); ?>" alt="user-image" class="rounded-circle">
                 </span>
@@ -75,3 +87,103 @@
 </div>
 </div>
 <!-- end Topbar -->
+<style>
+/* Add your dark mode styles here */
+body.dark-mode {
+    background-color: black;
+}
+.card.dark-mode {
+    background-color: black;
+}
+.left-side-menu-detached.dark-mode {
+    background-color: black;
+}    
+.list-group-item.dark-mode {
+    background-color: black;
+} 
+.select2-container .select2-selection--single.dark-mode {
+    background-color: black;
+}   
+.table-striped tbody tr:nth-of-type(odd).dark-mode {
+    background-color: black;
+}   
+.form-control.dark-mode {
+    background-color: black;
+} 
+p.note.dark-mode {
+    background-color: black;
+} 
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    if (localStorage.getItem('dark-mode') === 'enabled') {
+        document.body.classList.add('dark-mode');
+        var cards = document.querySelectorAll('.card');
+        cards.forEach(function(card) {
+            card.classList.add('dark-mode');
+        });
+        var leftSideMenus = document.querySelectorAll('.left-side-menu-detached');
+        leftSideMenus.forEach(function(menu) {
+            menu.classList.add('dark-mode');
+        });
+        var listGroupItems = document.querySelectorAll('.list-group-item');
+        listGroupItems.forEach(function(item) {
+            item.classList.add('dark-mode');
+        });
+        var select2Containers = document.querySelectorAll('.select2-container .select2-selection--single');
+        select2Containers.forEach(function(container) {
+            container.classList.add('dark-mode');
+        });
+        var tableRows = document.querySelectorAll('.table-striped tbody tr:nth-of-type(odd)');
+        tableRows.forEach(function(row) {
+            row.classList.add('dark-mode');
+        });
+        var formControls = document.querySelectorAll('.form-control');
+        formControls.forEach(function(control) {
+            control.classList.add('dark-mode');
+        });
+        var notes = document.querySelectorAll('p.note');
+        notes.forEach(function(note) {
+            note.classList.add('dark-mode');
+        });
+    }
+
+    document.getElementById('dark-mode-toggle').addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+        var cards = document.querySelectorAll('.card');
+        cards.forEach(function(card) {
+            card.classList.toggle('dark-mode');
+        });
+        var leftSideMenus = document.querySelectorAll('.left-side-menu-detached');
+        leftSideMenus.forEach(function(menu) {
+            menu.classList.toggle('dark-mode');
+        });
+        var listGroupItems = document.querySelectorAll('.list-group-item');
+        listGroupItems.forEach(function(item) {
+            item.classList.toggle('dark-mode');
+        });
+        var select2Containers = document.querySelectorAll('.select2-container .select2-selection--single');
+        select2Containers.forEach(function(container) {
+            container.classList.toggle('dark-mode');
+        });
+        var tableRows = document.querySelectorAll('.table-striped tbody tr:nth-of-type(odd)');
+        tableRows.forEach(function(row) {
+            row.classList.toggle('dark-mode');
+        });
+        var formControls = document.querySelectorAll('.form-control');
+        formControls.forEach(function(control) {
+            control.classList.toggle('dark-mode');
+        });
+        var notes = document.querySelectorAll('p.note');
+        notes.forEach(function(note) {
+            note.classList.toggle('dark-mode');
+        });
+
+        if (document.body.classList.contains('dark-mode')) {
+            localStorage.setItem('dark-mode', 'enabled');
+        } else {
+            localStorage.setItem('dark-mode', 'disabled');
+        }
+    });
+});
+</script>

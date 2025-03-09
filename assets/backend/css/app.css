@@ -8638,14 +8638,14 @@ body[data-layout="detached"] {
       display: none; } }
 
 .topnav-navbar-dark {
-  background-color: #313a46; }
+  background-color: #111c4e; }
   .topnav-navbar-dark .nav-user {
-    background-color: #3c4655;
+    background-color: #111c4e;
     border: 1px solid #414d5d; }
   .topnav-navbar-dark .topbar-right-menu li.show .nav-link {
     color: #fff; }
   .topnav-navbar-dark .app-search .form-control {
-    background-color: #3c4655;
+    background-color: #111c4e;
     color: #fff; }
   .topnav-navbar-dark .app-search span {
     color: #98a6ad; }

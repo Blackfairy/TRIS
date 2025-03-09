@@ -70,7 +70,18 @@ class Crud_model extends CI_Model {
         $this->db->insert('category', $data);
         $this->log_audit_trail($this->session->userdata('user_id'), 'add', 'category', $category_id, 'Category added');
     }
-
+    public function get_sub_category_name($sub_category_id)
+    {
+        $this->db->select('name');
+        $this->db->from('sub_categories');
+        $this->db->where('id', $sub_category_id);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->row()->name;
+        } else {
+            return '';
+        }
+    }
     public function edit_category($param1) {
         $data['name']   = html_escape($this->input->post('name'));
         $data['parent'] = html_escape($this->input->post('parent'));
@@ -1440,26 +1451,35 @@ class Crud_model extends CI_Model {
             }
         }
 
-        public function filter_manuscript_for_backend($category_id, $researcher_id, $price, $status) {
+        public function filter_manuscript_for_backend($category_id, $researcher_id, $price, $status, $year_from, $year_to) {
             if ($category_id != "all") {
                 $this->db->where('sub_category_id', $category_id);
             }
-
+        
             if ($price != "all") {
-                if ($price == "paid") {
-                    $this->db->where('is_free_manuscript', null);
-                }elseif ($price == "free") {
+                if ($price == 'free') {
                     $this->db->where('is_free_manuscript', 1);
+                } else {
+                    $this->db->where('is_free_manuscript', 0);
                 }
             }
-
+        
             if ($researcher_id != "all") {
                 $this->db->where('user_id', $researcher_id);
             }
-
+        
             if ($status != "all") {
                 $this->db->where('status', $status);
             }
+        
+            if (!empty($year_from)) {
+                $this->db->where('YEAR(date_accomplished) >=', $year_from);
+            }
+        
+            if (!empty($year_to)) {
+                $this->db->where('YEAR(date_accomplished) <=', $year_to);
+            }
+        
             return $this->db->get('manuscript')->result_array();
         }
 

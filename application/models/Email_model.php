@@ -7,26 +7,33 @@ class Email_model extends CI_Model {
 		parent::__construct();
 	}
 
-	function password_reset_email($new_password = '' , $email = '')
-	{
-		$query = $this->db->get_where('users' , array('email' => $email));
-		if($query->num_rows() > 0)
-		{
+    function password_reset_email($new_password = '' , $email = '')
+    {
+        $query = $this->db->get_where('users' , array('email' => $email));
+        if($query->num_rows() > 0)
+        {
+            $user = $query->row();
+            $first_name = ucfirst($user->first_name);
 
-			$email_msg	=	"Your password has been changed.";
-			$email_msg	.=	"Your new password is : ".$new_password."<br />";
+            $email_msg = "<html><body style='font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh;'>";
+            $email_msg .= "<div style='width: 100%; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center;'>";
+            $email_msg .= "<b>Dear " . $first_name . ",</b>";
+            $email_msg .= "<p>Your password has been changed.</p>";
+            $email_msg .= "<p>Your new password is: <b>".$new_password."</b></p>";
+            $email_msg .= "<p>If you did not request this change, please contact our support team immediately at <a href='mailto:support@tris.com'>support@tris.com</a>.</p>";
+            $email_msg .= "</div></body></html>";
 
-			$email_sub	=	"Password reset request";
-			$email_to	=	$email;
-			//$this->do_email($email_msg , $email_sub , $email_to);
-			$this->send_smtp_mail($email_msg , $email_sub , $email_to);
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+            $email_sub = "Password reset request";
+            $email_to = $email;
+            $this->send_smtp_mail($email_msg , $email_sub , $email_to);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 
 	public function send_email_verification_mail($first_name = "", $last_name = "", $to = "", $verification_code = "") {
 		$redirect_url = site_url('login/verify_email_address/'.$verification_code);
@@ -56,19 +63,28 @@ class Email_model extends CI_Model {
 	
 	
 
-	public function send_mail_on_manuscript_status_changing($manuscript_id = "", $mail_subject = "", $mail_body = "") {
-		$researcher_id		 = 0;
-		$manuscript_details    = $this->crud_model->get_manuscript_by_id($manuscript_id)->row_array();
-		if ($manuscript_details['user_id'] != "") {
-			$researcher_id = $manuscript_details['user_id'];
-		}else {
-			$researcher_id = $this->session->userdata('user_id');
-		}
-		$instuctor_details = $this->user_model->get_all_user($researcher_id)->row_array();
-		$email_from = get_settings('system_email');
+    public function send_mail_on_manuscript_status_changing($manuscript_id = "", $mail_subject = "", $mail_body = "") {
+        $researcher_id		 = 0;
+        $manuscript_details    = $this->crud_model->get_manuscript_by_id($manuscript_id)->row_array();
+        if ($manuscript_details['user_id'] != "") {
+            $researcher_id = $manuscript_details['user_id'];
+        }else {
+            $researcher_id = $this->session->userdata('user_id');
+        }
+        $instuctor_details = $this->user_model->get_all_user($researcher_id)->row_array();
+        $email_from = get_settings('system_email');
 
-		$this->send_smtp_mail($mail_body, $mail_subject, $instuctor_details['email'], $email_from);
-	}
+        // HTML message content with full centering
+        $email_msg = "<html><body style='font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh;'>";
+        $email_msg .= "<div style='width: 100%; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center;'>";
+
+        // Personalized greeting using first name
+        $email_msg .= "<b>Dear " . ucfirst($instuctor_details['first_name']) . ",</b>";
+        $email_msg .= "<p>" . $mail_body . "</p>";
+        $email_msg .= "</div></body></html>";
+
+        $this->send_smtp_mail($email_msg, $mail_subject, $instuctor_details['email'], $email_from);
+    }
 
 	public function send_smtp_mail($msg=NULL, $sub=NULL, $to=NULL, $from=NULL) {
 		//Load email library

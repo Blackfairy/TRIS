@@ -2,31 +2,27 @@
 $user_details = $this->user_model->get_user($this->session->userdata('user_id'))->row_array();
 ?>
 <section class="menu-area">
-    <div class="container-xl">
+    <div class="container-xl" style="justify-items: center !important;">
         <div class="row">
             <div class="col">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
                     <ul class="mobile-header-buttons">
                         <li><a class="mobile-nav-trigger" href="#mobile-primary-nav">Menu<span></span></a></li>
-                        <li><a class="mobile-search-trigger" href="#mobile-search">Search<span></span></a></li>
                     </ul>
 
-                    <a href="<?php echo site_url(''); ?>" class="navbar-brand" href="#">
-                        <img src="<?php echo base_url().'uploads/system/logo-dark.png'; ?>" alt="" height="35">
+                    <!-- Navbar Brand (Logo) -->
+                    <a href="<?php echo site_url(''); ?>" class="navbar-brand" style="padding-right: 1rem !important;">
+                        <img src="<?php echo base_url().'uploads/system/logo-dark.png'; ?>" alt="" height="50">
                     </a>
+                    <a href="<?php echo site_url(''); ?>" class="navbar-brand" style=" padding-right: 1rem !important; color: #fff !important; padding: 5px !important;   font-family: Roboto !important;">
+                        <?php echo get_phrase('university_of_makati'); ?>
+                    </a>
+                    <a href="<?php echo site_url(''); ?>" class="navbar-brand" style=" padding-right: 1rem !important; color: #fff !important; padding: 5px !important; font-family: Roboto !important;">
+                        <?php echo get_phrase('technology_based_research_hub'); ?>
+                    </a>
+                    
 
-                    <?php include 'menu.php'; ?>
-
-
-                    <form class="inline-form" action="<?php echo site_url('home/search'); ?>" method="get" style="width: 100%;">
-                        <div class="input-group search-box mobile-search">
-                            <input type="text" name = 'query' class="form-control" placeholder="<?php echo get_phrase('search_for_manuscripts'); ?>">
-                            <div class="input-group-append">
-                                <button class="btn" type="submit"><i class="fas fa-search"></i></button>
-                            </div>
-                        </div>
-                    </form>
 
                     <?php if (get_settings('allow_researcher') == 1): ?>
                         <div class="instructor-box menu-icon-box">
@@ -50,7 +46,7 @@ $user_details = $this->user_model->get_user($this->session->userdata('user_id'))
                         <?php include 'cart_items.php'; ?>
                     </div>
 
-                    <?php //include 'notifications.php'; ?>
+                    <?php include 'notifications.php'; ?>
 
 
                     <div class="user-box menu-icon-box">
@@ -96,6 +92,7 @@ $user_details = $this->user_model->get_user($this->session->userdata('user_id'))
                             <li class="user-dropdown-menu-item"><a href="<?php echo site_url('home/my_messages'); ?>"><i class="far fa-envelope"></i><?php echo get_phrase('my_messages'); ?></a></li>
                             <li class="user-dropdown-menu-item"><a href="<?php echo site_url('home/purchase_history'); ?>"><i class="fas fa-shopping-cart"></i><?php echo get_phrase('purchase_history'); ?></a></li>
                             <li class="user-dropdown-menu-item"><a href="<?php echo site_url('home/profile/user_profile'); ?>"><i class="fas fa-user"></i><?php echo get_phrase('user_profile'); ?></a></li>
+                            <li class="user-dropdown-menu-item"><a href="<?php echo site_url('home/my_notifications'); ?>"><i class="fas fa-user"></i><?php echo get_phrase('notifications'); ?></a></li>
                             <li class="dropdown-user-logout user-dropdown-menu-item"><a href="<?php echo site_url('login/logout/user'); ?>"><?php echo get_phrase('log_out'); ?></a></li>
                         </ul>
                     </div>
@@ -118,3 +115,21 @@ $user_details = $this->user_model->get_user($this->session->userdata('user_id'))
     </div>
 </div>
 </section>
+
+<?php include 'menu.php'; ?>
+
+
+<!-- Inline CSS to hide menu by default and show only in mobile view -->
+<style>
+  .mobile-main-nav {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .mobile-main-nav {
+      display: block;
+    }
+  }
+</style>
+
+<!-- Search Form -->
