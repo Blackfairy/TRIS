@@ -36,7 +36,6 @@ class Home extends CI_Controller {
         $page_data['page_title'] = get_phrase('shopping_cart');
         $this->load->view('frontend/'.get_frontend_settings('theme').'/index', $page_data);
     }
-
     public function manuscripts() {
         if (!$this->session->userdata('layout')) {
             $this->session->set_userdata('layout', 'list');
@@ -47,55 +46,73 @@ class Home extends CI_Controller {
         $selected_level = "all";
         $selected_language = "all";
         $selected_rating = "all";
+        $search_string = "";
+    
         // Get the category ids
         if (isset($_GET['category']) && !empty($_GET['category'] && $_GET['category'] != "all")) {
             $selected_category_id = $this->crud_model->get_category_id($_GET['category']);
         }
-
+    
         // Get the selected price
         if (isset($_GET['price']) && !empty($_GET['price'])) {
             $selected_price = $_GET['price'];
         }
-
-        // Get the selected level
-        if (isset($_GET['level']) && !empty($_GET['level'])) {
-            $selected_level = $_GET['level'];
-        }
-
-        // Get the selected language
-        if (isset($_GET['language']) && !empty($_GET['language'])) {
-            $selected_language = $_GET['language'];
-        }
-
+    
+        
+    
         // Get the selected rating
         if (isset($_GET['rating']) && !empty($_GET['rating'])) {
             $selected_rating = $_GET['rating'];
         }
-
-
-        if ($selected_category_id == "all" && $selected_price == "all" && $selected_level == 'all' && $selected_language == 'all' && $selected_rating == 'all') {
-            $this->db->where('status', 'active');
-            $total_rows = $this->db->get('manuscript')->num_rows();
-            $config = array();
-            $config = pagintaion($total_rows, 6);
-            $config['base_url']  = site_url('home/manuscripts/');
-            $this->pagination->initialize($config);
-            $this->db->where('status', 'active');
-            $page_data['manuscripts'] = $this->db->get('manuscript', $config['per_page'], $this->uri->segment(3))->result_array();
-        }else {
-            $manuscripts = $this->crud_model->filter_manuscript($selected_category_id, $selected_price, $selected_level, $selected_language, $selected_rating);
-            $page_data['manuscripts'] = $manuscripts;
+    
+        // Get the search string
+        if (isset($_GET['query']) && !empty($_GET['query'])) {
+            $search_string = $_GET['query'];
         }
-
-        $page_data['page_name']  = "manuscripts_page";
+    
+        $this->db->select('*');
+        $this->db->from('manuscript');
+        $this->db->where('status', 'active');
+    
+        if ($selected_category_id != "all") {
+            $this->db->where('category_id', $selected_category_id);
+        }
+    
+        if ($selected_price != "all") {
+            if ($selected_price == "free") {
+                $this->db->where('price', 0);
+            } else {
+                $this->db->where('price >', 0);
+            }
+        }
+    
+    
+        if ($selected_rating != "all") {
+            $this->db->where('rating >=', $selected_rating);
+        }
+    
+        if (!empty($search_string)) {
+            $this->db->group_start();
+            $this->db->like('title', $search_string);
+            $this->db->or_like('description', $search_string);
+            $this->db->or_like('meta_keywords', $search_string);
+            $this->db->group_end();
+        }
+    
+        $total_rows = $this->db->count_all_results('', FALSE);
+        $config = pagintaion($total_rows, 6);
+        $config['base_url'] = site_url('home/manuscripts/');
+        $this->pagination->initialize($config);
+        $page_data['manuscripts'] = $this->db->get('', $config['per_page'], $this->uri->segment(3))->result_array();
+    
+        $page_data['page_name'] = "manuscripts_page";
         $page_data['page_title'] = get_phrase('manuscripts');
-        $page_data['layout']     = $layout;
-        $page_data['selected_category_id']     = $selected_category_id;
-        $page_data['selected_price']     = $selected_price;
-        $page_data['selected_level']     = $selected_level;
-        $page_data['selected_language']     = $selected_language;
-        $page_data['selected_rating']     = $selected_rating;
-        $this->load->view('frontend/'.get_frontend_settings('theme').'/index', $page_data);
+        $page_data['layout'] = $layout;
+        $page_data['selected_category_id'] = $selected_category_id;
+        $page_data['selected_price'] = $selected_price;
+        $page_data['selected_rating'] = $selected_rating;
+        $page_data['search_string'] = $search_string;
+        $this->load->view('frontend/' . get_frontend_settings('theme') . '/index', $page_data);
     }
 
     public function set_layout_to_session() {
@@ -381,15 +398,42 @@ class Home extends CI_Controller {
 
     public function search($search_string = "") {
         $selected_category_id = $this->input->get('category_id');
-        $selected_subcategory_id = $this->input->get('subcategory_id');
+        $selected_sub_category_id = $this->input->get('sub_category_id');
         $selected_price = $this->input->get('price');
-        $selected_level = $this->input->get('level');
-        $selected_language = $this->input->get('language');
         $selected_rating = $this->input->get('rating');
     
         if (isset($_GET['query']) && !empty($_GET['query'])) {
             $search_string = $_GET['query'];
-            $page_data['manuscripts'] = $this->crud_model->filter_manuscript($selected_category_id, $selected_subcategory_id, $selected_price, $selected_level, $selected_language, $selected_rating, $search_string);
+            $this->db->select('*');
+            $this->db->from('manuscript');
+            $this->db->where('status', 'active');
+            $this->db->group_start();
+            $this->db->like('title', $search_string);
+            $this->db->or_like('description', $search_string);
+            $this->db->or_like('meta_keywords', $search_string);
+            $this->db->group_end();
+    
+            if (!empty($selected_category_id) && $selected_category_id != "all") {
+                $this->db->where('category_id', $selected_category_id);
+            }
+    
+            if (!empty($selected_sub_category_id) && $selected_sub_category_id != "all") {
+                $this->db->where('sub_category_id', $selected_sub_category_id);
+            }
+    
+            if (!empty($selected_price) && $selected_price != "all") {
+                if ($selected_price == "free") {
+                    $this->db->where('price', 0);
+                } else {
+                    $this->db->where('price >', 0);
+                }
+            }
+    
+            if (!empty($selected_rating) && $selected_rating != "all") {
+                $this->db->where('rating >=', $selected_rating);
+            }
+    
+            $page_data['manuscripts'] = $this->db->get()->result_array();
         } else {
             $this->session->set_flashdata('error_message', get_phrase('no_search_value_found'));
             redirect(site_url(), 'refresh');
@@ -404,12 +448,12 @@ class Home extends CI_Controller {
         $page_data['page_title'] = get_phrase('search_results');
         $this->load->view('frontend/' . get_frontend_settings('theme') . '/index', $page_data);
     }
-    public function my_manuscripts_by_search_string() {
-        $search_string = $this->input->post('search_string');
-        $manuscript_details = $this->crud_model->get_my_manuscripts_by_search_string($search_string)->result_array();
-        $page_data['my_manuscripts'] = $manuscript_details;
-        $this->load->view('frontend/'.get_frontend_settings('theme').'/reload_my_manuscripts', $page_data);
-    }
+        public function my_manuscripts_by_search_string() {
+            $search_string = $this->input->post('search_string');
+            $manuscript_details = $this->crud_model->get_my_manuscripts_by_search_string($search_string)->result_array();
+            $page_data['my_manuscripts'] = $manuscript_details;
+            $this->load->view('frontend/'.get_frontend_settings('theme').'/reload_my_manuscripts', $page_data);
+        }
 
     public function get_my_wishlists_by_search_string() {
         $search_string = $this->input->post('search_string');

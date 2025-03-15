@@ -103,13 +103,13 @@
                     foreach ($top_manuscripts as $top_manuscript):?>
                     <div class="manuscript-box-wrap">
                         <a href="<?php echo site_url('home/manuscript/'.slugify($top_manuscript['title']).'/'.$top_manuscript['id']); ?>" class="has-popover">
-                            <div class="manuscript-box">
+                            <div class="manuscript-box" style=" background-color:#18046b!important;">
                                 <!-- <div class="manuscript-badge position best-seller">Best seller</div> -->
                                 <div class="manuscript-image">
                                     <img src="<?php echo $this->crud_model->get_manuscript_thumbnail_url($top_manuscript['id']); ?>" alt="" class="img-fluid">
                                 </div>
                                 <div class="manuscript-details">
-                                    <h5 class="title"><?php echo $top_manuscript['title']; ?></h5>
+                                    <h5 class="title"  style="color:white !important;"><?php echo $top_manuscript['title']; ?></h5>
                                     <p class="researchers"><?php echo $top_manuscript['short_description']; ?></p>
                                     <div class="rating">
                                         <?php
@@ -136,7 +136,7 @@
                                     <?php if ($top_manuscript['discount_flag'] == 1): ?>
                                         <p class="price text-right"><small><?php echo currency($top_manuscript['price']); ?></small><?php echo currency($top_manuscript['discounted_price']); ?></p>
                                     <?php else: ?>
-                                        <p class="price text-right"><?php echo currency($top_manuscript['price']); ?></p>
+                                        <p class="price text-right"  style="color:white !important;"><?php echo currency($top_manuscript['price']); ?></p>
                                     <?php endif; ?>
                                 <?php endif; ?>
                             </div>
@@ -246,12 +246,12 @@
                     foreach ($latest_manuscripts as $latest_manuscript):?>
                     <div class="manuscript-box-wrap">
                         <a href="<?php echo site_url('home/manuscript/'.slugify($latest_manuscript['title']).'/'.$latest_manuscript['id']); ?>">
-                            <div class="manuscript-box">
+                            <div class="manuscript-box" style=" background-color:#18046b!important;">
                                 <div class="manuscript-image">
                                     <img src="<?php echo $this->crud_model->get_manuscript_thumbnail_url($latest_manuscript['id']); ?>" alt="" class="img-fluid">
                                 </div>
                                 <div class="manuscript-details">
-                                    <h5 class="title"><?php echo $latest_manuscript['title']; ?></h5>
+                                    <h5 class="title" style="color:white !important;"><?php echo $latest_manuscript['title']; ?></h5>
                                     <p class="researchers">
                                         <?php
                                         $researcher_details = $this->user_model->get_all_user($latest_manuscript['user_id'])->row_array();
@@ -282,7 +282,7 @@
                                     <?php if ($latest_manuscript['discount_flag'] == 1): ?>
                                         <p class="price text-right"><small><?php echo currency($latest_manuscript['price']); ?></small><?php echo currency($latest_manuscript['discounted_price']); ?></p>
                                     <?php else: ?>
-                                        <p class="price text-right"><?php echo currency($latest_manuscript['price']); ?></p>
+                                        <p class="price text-right"  style="color:white !important;"><?php echo currency($latest_manuscript['price']); ?></p>
                                     <?php endif; ?>
                                 <?php endif; ?>
                             </div>
@@ -405,3 +405,17 @@ function handleEnrolledButton() {
     window.addEventListener('load', adjustLayout);
     window.addEventListener('resize', adjustLayout);
 </script>
+<style>
+.img-fluid {
+    max-width: 70% !important;
+    height: auto;
+}
+.manuscript-box .manuscript-image {
+    position: relative;
+    justify-items: center !important;
+    padding-top: 15px !important;
+}
+.manuscript-box {
+    color: white !important;
+}
+</style>

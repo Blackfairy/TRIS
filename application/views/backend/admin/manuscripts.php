@@ -71,6 +71,15 @@
         </div> <!-- end card-box-->
     </div> <!-- end col-->
 </div>
+<div class="row ">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body" style="padding: 10px; margin: 0;">
+                <h4 class="mb-3 header-title text-center" style="padding: 5px; margin: 0;"><?php echo get_phrase('filter_researches_to_display_research'); ?></h4>
+            </div> <!-- end card body-->
+        </div> <!-- end card -->
+    </div><!-- end col-->
+</div>
 <div class="row">
     <div class="col-xl-12">
         <div class="card">
@@ -154,7 +163,7 @@
             </form>
 
             <div class="table-responsive-sm mt-4">
-                <?php if (count($manuscripts) > 0): ?>
+            <?php if (isset($_GET['button']) && count($manuscripts) > 0): ?>
                     <table id="manuscript-datatable" class="table table-striped dt-responsive nowrap" width="100%" data-page-length='25'>
                         <thead>
                             <tr>
@@ -286,7 +295,18 @@
                                                       <?php endif; ?>
                                                   <?php endif; ?>
                                               </li>
-                                              <li><a class="dropdown-item" href="#" onclick="confirm_modal('<?php echo site_url('admin/manuscript_actions/delete/'.$manuscript['id']); ?>');"><?php echo get_phrase('archive'); ?></a></li>
+                                              <li>
+                                              <?php if ($manuscript['user_id'] != $this->session->userdata('user_id')): ?>
+                                                          <a class="dropdown-item" href="#" onclick="showAjaxModal('<?php echo base_url();?>modal/popup/mail_on_manuscript_status_changing_modal/pending/<?php echo $manuscript['id']; ?>/<?php echo $selected_category_id; ?>/<?php echo $selected_instructor_id; ?>/<?php echo $selected_price; ?>/<?php echo $selected_status;?>', '<?php echo get_phrase('inform_researcher'); ?>');">
+                                                              <?php echo get_phrase('archive');?>
+                                                          </a>
+                                                      <?php else: ?>
+                                                          <a class="dropdown-item" href="#" onclick="confirm_modal('<?php echo site_url();?>admin/change_manuscript_status_for_admin/pending/<?php echo $manuscript['id']; ?>/<?php echo $selected_category_id; ?>/<?php echo $selected_instructor_id; ?>/<?php echo $selected_price; ?>/<?php echo $selected_status;?>', '<?php echo get_phrase('inform_researcher'); ?>');">
+                                                              <?php echo get_phrase('archive');?>
+                                                          </a>
+                                                      <?php endif; ?>
+                                                <!--<a class="dropdown-item" href="#" onclick="confirm_modal('<?php echo site_url('admin/manuscript_actions/delete/'.$manuscript['id']); ?>');"><?php echo get_phrase('archive'); ?></a> -->
+                                            </li>
                                         </ul>
                                     </div>
                                     </td>

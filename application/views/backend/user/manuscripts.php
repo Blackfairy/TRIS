@@ -2,9 +2,9 @@
     <div class="col-xl-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="page-title"> <i class="mdi mdi-apple-keyboard-command title_icon"></i> <?php echo get_phrase('manuscripts'); ?>
-                    <a href="<?php echo site_url('user/manuscript_form/add_manuscript'); ?>" class="btn btn-outline-primary btn-rounded alignToTitle"><i class="mdi mdi-plus"></i><?php echo get_phrase('add_new_manuscript'); ?></a>
-                    <a href="<?php echo site_url('user/manuscripts'); ?>" class="btn btn-outline-success btn-rounded alignToTitle">
+                <h4 class="page-title"> <i class="mdi mdi-apple-keyboard-command title_icon"></i> <?php echo get_phrase('researches'); ?>
+                    <a href="<?php echo site_url('user/manuscript_form/add_manuscript'); ?>" class="btn btn-outline-primary btn-rounded alignToTitle"><i class="mdi mdi-plus"></i><?php echo get_phrase('add_new_research'); ?></a>
+                    <a href="<?php echo site_url('user/export_manuscripts'); ?>" class="btn btn-outline-success btn-rounded alignToTitle">
                         <i class="mdi mdi-file-excel"></i> Export to Excel
                     </a>
                 </h4>
@@ -17,81 +17,53 @@
         <div class="card widget-inline">
             <div class="card-body p-0">
                 <div class="row no-gutters">
-                    <div class="col">
+                    <div class="col-sm-6 col-xl-3">
                         <a href="<?php echo site_url('user/manuscripts'); ?>" class="text-secondary">
                             <div class="card shadow-none m-0">
                                 <div class="card-body text-center">
                                     <i class="dripicons-link text-muted" style="font-size: 24px;"></i>
-                                    <h3><span>
-                                        <?php
-                                            $active_manuscripts = $this->crud_model->get_status_wise_manuscripts_for_researcher('active');
-                                            echo $active_manuscripts->num_rows();
-                                         ?>
-                                    </span></h3>
-                                    <p class="text-muted font-15 mb-0"><?php echo get_phrase('active_manuscripts'); ?></p>
+                                    <h3><span><?php echo $this->crud_model->get_status_wise_manuscripts_for_researcher('active')->num_rows(); ?></span></h3>
+                                    <p class="text-muted font-15 mb-0"><?php echo get_phrase('active_research'); ?></p>
                                 </div>
                             </div>
                         </a>
                     </div>
 
-                    <div class="col">
+                    <div class="col-sm-6 col-xl-3">
                         <a href="<?php echo site_url('user/manuscripts'); ?>" class="text-secondary">
                             <div class="card shadow-none m-0 border-left">
                                 <div class="card-body text-center">
                                     <i class="dripicons-link-broken text-muted" style="font-size: 24px;"></i>
-                                    <h3><span>
-                                        <?php
-                                            $pending_manuscripts = $this->crud_model->get_status_wise_manuscripts_for_researcher('pending');
-                                            echo $pending_manuscripts->num_rows();
-                                         ?>
-                                    </span></h3>
-                                    <p class="text-muted font-15 mb-0"><?php echo get_phrase('pending_manuscripts'); ?></p>
+                                    <h3><span><?php echo $this->crud_model->get_status_wise_manuscripts_for_researcher('pending')->num_rows(); ?></span></h3>
+                                    <p class="text-muted font-15 mb-0"><?php echo get_phrase('under_review_research'); ?></p>
                                 </div>
                             </div>
                         </a>
                     </div>
 
-                    <div class="col">
-                        <a href="<?php echo site_url('user/manuscripts'); ?>" class="text-secondary">
-                            <div class="card shadow-none m-0 border-left">
-                                <div class="card-body text-center">
-                                    <i class="dripicons-bookmark text-muted" style="font-size: 24px;"></i>
-                                    <h3><span>
-                                        <?php
-                                            $draft_manuscripts = $this->crud_model->get_status_wise_manuscripts_for_researcher('draft');
-                                            echo $draft_manuscripts->num_rows();
-                                         ?>
-                                    </span></h3>
-                                    <p class="text-muted font-15 mb-0"><?php echo get_phrase('draft_manuscripts'); ?></p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col">
+                    <div class="col-sm-6 col-xl-3">
                         <a href="<?php echo site_url('user/manuscripts'); ?>" class="text-secondary">
                             <div class="card shadow-none m-0 border-left">
                                 <div class="card-body text-center">
                                     <i class="dripicons-star text-muted" style="font-size: 24px;"></i>
                                     <h3><span><?php echo $this->crud_model->get_free_and_paid_manuscripts('free', $this->session->userdata('user_id'))->num_rows(); ?></span></h3>
-                                    <p class="text-muted font-15 mb-0"><?php echo get_phrase('free_manuscripts'); ?></p>
+                                    <p class="text-muted font-15 mb-0"><?php echo get_phrase('free_research'); ?></p>
                                 </div>
                             </div>
                         </a>
                     </div>
 
-                    <div class="col">
+                    <div class="col-sm-6 col-xl-3">
                         <a href="<?php echo site_url('user/manuscripts'); ?>" class="text-secondary">
                             <div class="card shadow-none m-0 border-left">
                                 <div class="card-body text-center">
                                     <i class="dripicons-tags text-muted" style="font-size: 24px;"></i>
                                     <h3><span><?php echo $this->crud_model->get_free_and_paid_manuscripts('paid', $this->session->userdata('user_id'))->num_rows(); ?></span></h3>
-                                    <p class="text-muted font-15 mb-0"><?php echo get_phrase('paid_manuscripts'); ?></p>
+                                    <p class="text-muted font-15 mb-0"><?php echo get_phrase('paid_research'); ?></p>
                                 </div>
                             </div>
                         </a>
                     </div>
-
                 </div> <!-- end row -->
             </div>
         </div> <!-- end card-box-->
@@ -101,7 +73,7 @@
     <div class="col-xl-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="mb-3 header-title"><?php echo get_phrase('manuscript_list'); ?></h4>
+                <h4 class="mb-3 header-title"><?php echo get_phrase('research_list'); ?></h4>
                 <form class="row justify-content-center" action="<?php echo site_url('user/manuscripts'); ?>" method="get">
                     <!-- Manuscript Categories -->
                     <div class="col-xl-3">
@@ -122,19 +94,19 @@
                 </div>
 
                 <!-- Manuscript Status -->
-                <div class="col-xl-3">
+                <div class="col-xl-2">
                     <div class="form-group">
                         <label for="status"><?php echo get_phrase('status'); ?></label>
                         <select class="form-control select2" data-toggle="select2" name="status" id = 'status'>
                             <option value="all" <?php if($selected_status == 'all') echo 'selected'; ?>><?php echo get_phrase('all'); ?></option>
-                            <option value="active" <?php if($selected_status == 'active') echo 'selected'; ?>><?php echo get_phrase('active'); ?></option>
-                            <option value="pending" <?php if($selected_status == 'pending') echo 'selected'; ?>><?php echo get_phrase('pending'); ?></option>
+                            <option value="active" <?php if($selected_status == 'active') echo 'selected'; ?>><?php echo get_phrase('active_research'); ?></option>
+                            <option value="pending" <?php if($selected_status == 'pending') echo 'selected'; ?>><?php echo get_phrase('under_review_research'); ?></option>
                         </select>
                     </div>
                 </div>
 
                 <!-- Manuscript Price -->
-                <div class="col-xl-3">
+                <div class="col-xl-2">
                     <div class="form-group">
                         <label for="price"><?php echo get_phrase('price'); ?></label>
                         <select class="form-control select2" data-toggle="select2" name="price" id = 'price'>
@@ -145,10 +117,26 @@
                     </div>
                 </div>
 
-                <div class="col-xl-3">
+                <!-- Manuscript Year Range -->
+                <div class="col-xl-2">
+                    <div class="form-group">
+                        <label for="year_from"><?php echo get_phrase('from_year'); ?></label>
+                        <input type="number" class="form-control" name="year_from" id="year_from" placeholder="<?php echo get_phrase('from_year'); ?>" value="<?php echo $selected_year_from; ?>">
+                    </div>
+                </div>
+                <div class="col-xl-2">
+                    <div class="form-group">
+                        <label for="year_to"><?php echo get_phrase('to_year'); ?></label>
+                        <input type="number" class="form-control" name="year_to" id="year_to" placeholder="<?php echo get_phrase('to_year'); ?>" value="<?php echo $selected_year_to; ?>">
+                    </div>
+                </div>
+
+                
+                <div class="col-xl-2">
                     <label for=".." class="text-white"><?php echo get_phrase('..'); ?></label>
                     <button type="submit" class="btn btn-primary btn-block" name="button"><?php echo get_phrase('filter'); ?></button>
                 </div>
+
             </form>
 
             <div class="table-responsive-sm mt-4">
@@ -160,10 +148,10 @@
                                 <th><?php echo get_phrase('title'); ?></th>
                                 <th><?php echo get_phrase('authors'); ?></th>
                                 <th><?php echo get_phrase('advisers'); ?></th>
-                                <th><?php echo get_phrase('date_accomplished'); ?></th>
+                                <th><?php echo get_phrase('completion_year'); ?></th>
                                 <th><?php echo get_phrase('company_name'); ?></th>
-                                <th><?php echo get_phrase('category'); ?></th>
-                                <th><?php echo get_phrase('accessed_students'); ?></th>
+                                <th><?php echo get_phrase('category_of_research'); ?></th>
+                                <th><?php echo get_phrase('engaged_students'); ?></th>
                                 <th><?php echo get_phrase('status'); ?></th>
                                 <th><?php echo get_phrase('price'); ?></th>
                                 <th><?php echo get_phrase('actions'); ?></th>
@@ -258,10 +246,10 @@
                                             <i class="mdi mdi-dots-vertical"></i>
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="<?php echo site_url('home/manuscript/'.slugify($manuscript['title']).'/'.$manuscript['id']); ?>" target="_blank"><?php echo get_phrase('view_manuscript_on_frontend');?></a></li>
-                                            <li><a class="dropdown-item" href="<?php echo site_url('user/manuscript_form/manuscript_edit/'.$manuscript['id']); ?>"><?php echo get_phrase('edit_this_manuscript');?></a></li>
+                                            <li><a class="dropdown-item" href="<?php echo site_url('home/manuscript/'.slugify($manuscript['title']).'/'.$manuscript['id']); ?>"><?php echo get_phrase('view_research_on_frontend');?></a></li>
+                                            <li><a class="dropdown-item" href="<?php echo site_url('user/manuscript_form/manuscript_edit/'.$manuscript['id']); ?>"><?php echo get_phrase('review_this_research');?></a></li>
                                             <li><a class="dropdown-item" href="<?php echo site_url('user/manuscript_form/manuscript_edit/'.$manuscript['id']); ?>"><?php echo get_phrase('file');?></a></li>
-                                            <li><a class="dropdown-item" href="#" onclick="confirm_modal('<?php echo site_url('user/manuscript_actions/delete/'.$manuscript['id']); ?>');"><?php echo get_phrase('delete'); ?></a></li>
+                                            <li><a class="dropdown-item" href="#" onclick="confirm_modal('<?php echo site_url('user/manuscript_actions/delete/'.$manuscript['id']); ?>');"><?php echo get_phrase('archive'); ?></a></li>
                                         </ul>
                                     </div>
                                     </td>
@@ -270,7 +258,7 @@
                         </tbody>
                     </table>
                 <?php else: ?>
-                    <p><?php echo get_phrase('no_manuscripts_found'); ?></p>
+                    <p><?php echo get_phrase('no_research_found'); ?></p>
                 <?php endif; ?>
             </div>
         </div>

@@ -77,22 +77,16 @@
 						<a href="<?php echo site_url('admin/enrol_student'); ?>"><?php echo get_phrase('student_permit_to_ access'); ?></a>
 					</li>
 
-				</ul>
-				<ul class="side-nav-second-level" aria-expanded="false">
-					<li class = "<?php if($page_name == 'admin_revenue') echo 'active'; ?>" > <a href="<?php echo site_url('admin/admin_revenue'); ?>"><?php echo get_phrase('admin_revenue'); ?></a> </li>
-					<?php if (get_settings('allow_researcher') == 1): ?>
-							<li class = "<?php if($page_name == 'researcher_revenue') echo 'active'; ?>" >
-									<a href="<?php echo site_url('admin/researcher_revenue'); ?>">
-											<?php echo get_phrase('researcher_revenue');?> <span class = "badge badge-danger-lighten badge-pill"><?php echo $this->db->get_where('payment', array('researcher_payment_status' => 0))->num_rows() ?></span>
-									</a>
-							</li>
-					<?php endif; ?>
 				</ul>	
 				<ul class="side-nav-second-level" aria-expanded="false">
 				<li class = "<?php if($page_name == 'audit_trail') echo 'active'; ?>" > 
 					<a href="<?php echo site_url('admin/audit_trail'); ?>">
 						<?php echo get_phrase('audit_trail'); ?></a> </li>
 				
+				</ul>
+				<ul class="side-nav-second-level" aria-expanded="false">
+					<li class = "<?php if($page_name == 'user_logs') echo 'active'; ?>" > <a href="<?php echo site_url('admin/user_logs'); ?>"><?php echo get_phrase('user_logs'); ?></a> </li>
+					
 				</ul>
 			</li>
 	

@@ -435,40 +435,40 @@ class CI_Session {
 	// ------------------------------------------------------------------------
 
 	/**
-	 * Mark as flash
-	 *
-	 * @param	mixed	$key	Session data key(s)
-	 * @return	bool
-	 */
-	public function mark_as_flash($key)
-	{
-		if (is_array($key))
+ * Mark as flash
+ *
+ * @param	mixed	$key	Session data key(s)
+ * @return	bool
+ */
+		public function mark_as_flash($key)
 		{
-			for ($i = 0, $c = count($key); $i < $c; $i++)
+			if (is_array($key))
 			{
-				if ( ! isset($_SESSION[$key[$i]]))
+				for ($i = 0, $c = count($key); $i < $c; $i++)
 				{
-					return FALSE;
+					if ( ! isset($_SESSION[$key[$i]]))
+					{
+						return FALSE;
+					}
 				}
+
+				$new = array_fill_keys($key, 'new');
+
+				$_SESSION['__ci_vars'] = isset($_SESSION['__ci_vars'])
+					? array_merge($_SESSION['__ci_vars'], $new)
+					: $new;
+
+				return TRUE;
 			}
 
-			$new = array_fill_keys($key, 'new');
+			if ( ! isset($_SESSION[$key]))
+			{
+				return FALSE;
+			}
 
-			$_SESSION['__ci_vars'] = isset($_SESSION['__ci_vars'])
-				? array_merge($_SESSION['__ci_vars'], $new)
-				: $new;
-
+			$_SESSION['__ci_vars'][$key] = 'new';
 			return TRUE;
 		}
-
-		if ( ! isset($_SESSION[$key]))
-		{
-			return FALSE;
-		}
-
-		$_SESSION['__ci_vars'][$key] = 'new';
-		return TRUE;
-	}
 
 	// ------------------------------------------------------------------------
 
@@ -942,19 +942,19 @@ class CI_Session {
 	// ------------------------------------------------------------------------
 
 	/**
-	 * Set flashdata
-	 *
-	 * Legacy CI_Session compatibility method
-	 *
-	 * @param	mixed	$data	Session data key or an associative array
-	 * @param	mixed	$value	Value to store
-	 * @return	void
-	 */
-	public function set_flashdata($data, $value = NULL)
-	{
-		$this->set_userdata($data, $value);
-		$this->mark_as_flash(is_array($data) ? array_keys($data) : $data);
-	}
+ * Set flashdata
+ *
+ * Legacy CI_Session compatibility method
+ *
+ * @param	mixed	$data	Session data key or an associative array
+ * @param	mixed	$value	Value to store
+ * @return	void
+ */
+public function set_flashdata($data, $value = NULL)
+{
+    $this->set_userdata($data, $value);
+    $this->mark_as_flash(is_array($data) ? array_keys($data) : $data);
+}
 
 	// ------------------------------------------------------------------------
 

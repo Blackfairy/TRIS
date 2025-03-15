@@ -101,8 +101,8 @@ label {
 }
 .btn:hover,
 .btn:focus {
-    background-color: #992337;
-    border-color: #992337;
+    background-color: #f5ec3a;
+    border-color: #f5ec3a;
     color: #fff;
 }
 textarea:focus,
@@ -722,8 +722,8 @@ select + .select2-container{
 }
 .sign-in-box .btn-sign-up:hover,
 .sign-in-box .btn-sign-up:focus{
-    background-color: #992337;;
-    border-color: #992337;;
+    background-color: #f5ec3a;;
+    border-color: #f5ec3a;;
 }
 
 
@@ -1888,12 +1888,12 @@ section.manuscript-header-area {
 }
 .manuscript-sidebar-text-box .buy-btns .btn-buy-now {
     color: #fff;
-    background-color: #ec5252;
-    border-color: #ec5252;
+    background-color: #007bff;
+    border-color: #007bff;
 }
 .manuscript-sidebar-text-box .buy-btns .btn-buy-now:hover,.manuscript-sidebar-text-box .buy-btns .btn-buy-now:focus {
-    background-color: #992337;
-    border-color: #992337;
+    background-color: #f5ec3a;
+    border-color: #f5ec3a;
 }
 
 .manuscript-sidebar-text-box .buy-btns .btn-add-cart {
@@ -3085,13 +3085,13 @@ section.my-manuscript-area {
     font-size: 15px;
     line-height: 1.35135;
     border-radius: 2px;
-    background-color: #ec5252;
-    border-color: #ec5252;
+    background-color: #f5ec3a;
+    border-color: #f5ec3a;
     font-weight: 600;
 }
 .edit-rating-modal .modal-footer button:hover,.edit-rating-modal .modal-footer button:focus {
-    background-color: #992337 !important;
-    border-color: #992337 !important;
+    background-color: #f5ec3a !important;
+    border-color: #f5ec3a !important;
 }
 .edit-rating-modal .modal-footer button.previous {
     color: #007791;
@@ -3325,8 +3325,8 @@ section.cart-list-area {
     padding: 16px 12px;
 }
 .cart-sidebar .checkout-btn:hover,.cart-sidebar .checkout-btn:focus {
-    background-color: #992337 !important;
-    border-color: #992337 !important;
+    background-color: #f5ec3a !important;
+    border-color: #f5ec3a !important;
 }
 .cart-sidebar .coupon-field input {
     padding: 14px 12px;
@@ -3702,8 +3702,8 @@ section.user-dashboard-area {
 }
 .message-details-box .message-details .message-footer .send-btn:hover,
 .message-details-box .message-details .message-footer .send-btn:focus {
-    background-color: #992337;
-    border-color: #992337;
+    background-color: #f5ec3a;
+    border-color: #f5ec3a;
 }
 
 

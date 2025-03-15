@@ -17,7 +17,26 @@
         <div class="card">
             <div class="card-body">
               <h4 class="mb-3 header-title"><?php echo get_phrase('students'); ?></h4>
+              <form class="row justify-content-center" action="<?php echo site_url('admin/users'); ?>" method="get">
+                <div class="col-xl-3">
+                    <div class="form-group">
+                        <label for="date_from"><?php echo get_phrase('date_from'); ?></label>
+                        <input type="date" class="form-control" name="date_from" id="date_from" value="<?php echo isset($_GET['date_from']) ? $_GET['date_from'] : ''; ?>">
+                    </div>
+                </div>
+                <div class="col-xl-3">
+                    <div class="form-group">
+                        <label for="date_to"><?php echo get_phrase('date_to'); ?></label>
+                        <input type="date" class="form-control" name="date_to" id="date_to" value="<?php echo isset($_GET['date_to']) ? $_GET['date_to'] : ''; ?>">
+                    </div>
+                </div>
+                <div class="col-xl-2">
+                    <label for=".." class="text-white"><?php echo get_phrase('..'); ?></label>
+                    <button type="submit" class="btn btn-primary btn-block" name="button"><?php echo get_phrase('filter'); ?></button>
+                </div>
+              </form>
               <div class="table-responsive-sm mt-4">
+                <?php if (isset($_GET['button']) && !empty($users)): ?>
                 <table id="basic-datatable" class="table table-striped table-centered mb-0">
                   <thead>
                     <tr>
@@ -30,8 +49,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                      <?php
-                       foreach ($users->result_array() as $key => $user): ?>
+                      <?php foreach ($users as $key => $user): ?>
                           <tr>
                               <td><?php echo $key+1; ?></td>
                               <td>
@@ -39,7 +57,7 @@
                               </td>
                               <td><?php echo $user['first_name'].' '.$user['last_name']; ?></td>
                               <td><?php echo $user['email']; ?></td>
-                              <td><?php echo $user['date_added']; ?></td>
+                              <td><?php echo date('Y-m-d', strtotime($user['date_added'])); ?></td>
                               <td>
                                   <div class="dropright dropright">
                                     <button type="button" class="btn btn-sm btn-outline-primary btn-rounded btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -55,6 +73,9 @@
                       <?php endforeach; ?>
                   </tbody>
               </table>
+              <?php else: ?>
+                <p><?php echo get_phrase('no_students_found'); ?></p>
+              <?php endif; ?>
               </div>
             </div> <!-- end card body-->
         </div> <!-- end card -->

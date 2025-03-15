@@ -15,9 +15,9 @@ $manuscript_details = $this->crud_model->get_manuscript_by_id($manuscript_id)->r
     <div class="col-xl-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="header-title mb-3"><?php echo get_phrase('manuscript_manager'); ?>
+                <h4 class="header-title mb-3"><?php echo get_phrase('research_manager'); ?>
                     <a href="<?php echo site_url('user/preview/'.$manuscript_id); ?>" class="alignToTitle btn btn-outline-secondary btn-rounded btn-sm ml-1" target="_blank"><?php echo get_phrase('view_on_frontend'); ?> <i class="mdi mdi-arrow-right"></i> </a>
-                    <a href="<?php echo site_url('user/manuscripts'); ?>" class="alignToTitle btn btn-outline-secondary btn-rounded btn-sm"><i class=" mdi mdi-keyboard-backspace"></i> <?php echo get_phrase('back_to_manuscript_list'); ?></a>
+                    <a href="<?php echo site_url('user/manuscripts'); ?>" class="alignToTitle btn btn-outline-secondary btn-rounded btn-sm"><i class=" mdi mdi-keyboard-backspace"></i> <?php echo get_phrase('back_to_research_list'); ?></a>
                 </h4>
 
                 <div class="row">

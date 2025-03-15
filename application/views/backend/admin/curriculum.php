@@ -1,7 +1,6 @@
 <div class="row justify-content-center">
     <div class="col-xl-12 mb-4 text-center mt-3">
-        <a href="javascript::void(0)" class="btn btn-outline-primary btn-rounded btn-sm ml-1" onclick="showAjaxModal('<?php echo site_url('modal/popup/section_add/'.$manuscript_id); ?>', '<?php echo get_phrase('add_new_section'); ?>')"><i class="mdi mdi-plus"></i> <?php echo get_phrase('add_section'); ?></a>
-        <a href="javascript::void(0)" class="btn btn-outline-primary btn-rounded btn-sm ml-1" onclick="showAjaxModal('<?php echo site_url('modal/popup/lesson_add/'.$manuscript_id); ?>', '<?php echo get_phrase('add_new_manuscript'); ?>')"><i class="mdi mdi-plus"></i> <?php echo get_phrase('add_manuscript'); ?></a>
+        <a href="javascript:void(0)" class="btn btn-outline-primary btn-rounded btn-sm ml-1" onclick="addResearchSection('<?php echo site_url('modal/popup/lesson_add/'.$manuscript_id); ?>', '<?php echo get_phrase('add_new_research'); ?>')"><i class="mdi mdi-plus"></i> <?php echo get_phrase('add_research'); ?></a>
     </div>
 
     <div class="col-xl-8">
@@ -18,7 +17,7 @@
                             <div class="row justify-content-center alignToTitle float-right display-none" id = "widgets-of-section-<?php echo $section['id']; ?>">
                                 <button type="button" class="btn btn-outline-secondary btn-rounded btn-sm" name="button" onclick="showLargeModal('<?php echo site_url('modal/popup/sort_lesson/'.$section['id']); ?>', '<?php echo get_phrase('sort'); ?>')" ><i class="mdi mdi-sort-variant"></i> <?php echo get_phrase('sort'); ?></button>
                                 <button type="button" class="btn btn-outline-secondary btn-rounded btn-sm ml-1" name="button" onclick="showAjaxModal('<?php echo site_url('modal/popup/section_edit/'.$section['id'].'/'.$manuscript_id); ?>', '<?php echo get_phrase('update_section'); ?>')" ><i class="mdi mdi-pencil-outline"></i> <?php echo get_phrase('edit_section'); ?></button>
-                                <button type="button" class="btn btn-outline-secondary btn-rounded btn-sm ml-1" name="button" onclick="confirm_modal('<?php echo site_url('admin/sections/'.$manuscript_id.'/delete'.'/'.$section['id']); ?>');"><i class="mdi mdi-window-close"></i> <?php echo get_phrase('delete_section'); ?></button>
+                                
                             </div>
                         </h5>
                         <div class="clearfix"></div>
@@ -54,9 +53,17 @@
                                             }
                                             ?>
                                             <img src="<?php echo base_url('assets/backend/lesson_icon/'.$lesson_type.'.png'); ?>" alt="" height = "16">
-                                            <?php echo $lesson['lesson_type'] == 'quiz' ? get_phrase('quiz').' '.$quiz_counter : get_phrase('fulltext_file').' '.$lesson_counter; ?>
+                                            <?php echo $lesson['lesson_type'] == 'quiz' ? get_phrase('quiz').' '.$quiz_counter : get_phrase('file').' '.$lesson_counter; ?>
                                         </span>: <?php echo $lesson['title']; ?>
                                     </h5>
+                                    <?php if ($lesson['attachment_type'] == 'pdf'): ?>
+                                        <div class="pdf-viewer mt-3">
+                                            <iframe src="<?php echo base_url('uploads/lesson_files/'.$lesson['attachment']); ?>" width="100%" height="500px"></iframe>
+                                        </div>
+                                        <div class="text-center mt-2">
+                                            <a href="<?php echo base_url('uploads/lesson_files/'.$lesson['attachment']); ?>" class="btn btn-primary" download><?php echo get_phrase('download_pdf'); ?></a>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
                             </div> <!-- end card-->
                         </div>
@@ -68,3 +75,32 @@
 </div>
 </div>
 </div>
+
+<script>
+function addResearchSection(url, title) {
+    // Check if the "Research File" section already exists
+    var sectionExists = false;
+    $('.card-title').each(function() {
+        if ($(this).text().includes('Research File')) {
+            sectionExists = true;
+            return false; // Break the loop
+        }
+    });
+
+    if (!sectionExists) {
+        // Add the "Research File" section
+        $.ajax({
+            url: '<?php echo site_url('admin/sections/'.$manuscript_id.'/add'); ?>',
+            type: 'POST',
+            data: {title: 'Research File', manuscript_id: '<?php echo $manuscript_id; ?>'},
+            success: function(response) {
+                // Show the modal for adding a new research
+                showAjaxModal(url, title);
+            }
+        });
+    } else {
+        // Show the modal for adding a new research
+        showAjaxModal(url, title);
+    }
+}
+</script>

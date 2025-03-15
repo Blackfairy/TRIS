@@ -93,10 +93,6 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <label><?php echo get_phrase('summary'); ?></label>
-        <textarea name="summary" class="form-control"><?php echo $lesson_details['summary']; ?></textarea>
-    </div>
 
     <div class="text-center">
         <button class = "btn btn-success" type="submit" name="button"><?php echo get_phrase('update_manuscript'); ?></button>

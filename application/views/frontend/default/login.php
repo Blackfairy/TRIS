@@ -73,7 +73,9 @@
                                 </div>
                             </div>
                             <div class="content-update-box">
-                                <button type="submit" class="btn"><?php echo get_phrase('login'); ?></button>
+                                <!-- Modify the login button -->
+<button type="button" class="btn" onclick="showResearcherTypeModal()"><?php echo get_phrase('login'); ?></button>
+
                             </div>
                             <div class="forgot-pass text-center">
                                 <span>or</span>
@@ -89,7 +91,7 @@
                             <div class="title"><?php echo get_phrase('registration_form'); ?></div>
                             <div class="subtitle"><?php echo get_phrase('sign_up_and_start_learning'); ?>.</div>
                         </div>
-                        <form action="<?php echo site_url('login/register'); ?>" method="post">
+                        <form id="registration-form" action="<?php echo site_url('login/register'); ?>" method="post">
                             <div class="content-box">
                                 <div class="basic-group">
                                     <div class="form-group">
@@ -482,7 +484,6 @@ function submitForm() {
         </div>
     </div>
 </div>
-
 <!-- Add modals for Privacy Policy and Terms and Conditions -->
 <div class="modal fade" id="privacyPolicyModal" tabindex="-1" role="dialog" aria-labelledby="privacyPolicyModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -527,3 +528,45 @@ function submitForm() {
 <!-- Include hCaptcha API -->
 <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 
+
+<!-- Researcher Type Modal -->
+<div class="modal fade" id="researcherTypeModal" tabindex="-1" role="dialog" aria-labelledby="researcherTypeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="researcherTypeModalLabel">Select Researcher Type</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <button type="button" class="btn btn-primary" onclick="submitLoginForm('student')">Student Researcher</button>
+                <button type="button" class="btn btn-secondary" onclick="submitLoginForm('faculty')">Faculty Researcher</button>
+                <button type="button" class="btn btn-secondary" onclick="submitLoginForm('faculty')">Other</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showResearcherTypeModal() {
+    $('#researcherTypeModal').modal('show');
+}
+
+function submitLoginForm(researcherType) {
+    // Add a hidden input field to the form to store the researcher type
+    const form = document.querySelector('form[action="<?php echo site_url('login/validate_login/user'); ?>"]');
+    let researcherTypeInput = document.getElementById('researcher-type');
+    if (!researcherTypeInput) {
+        researcherTypeInput = document.createElement('input');
+        researcherTypeInput.type = 'hidden';
+        researcherTypeInput.name = 'researcher_type';
+        researcherTypeInput.id = 'researcher-type';
+        form.appendChild(researcherTypeInput);
+    }
+    researcherTypeInput.value = researcherType;
+
+    // Submit the form
+    form.submit();
+}
+</script>

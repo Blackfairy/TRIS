@@ -475,52 +475,65 @@ class Admin extends CI_Controller {
     $page_data['categories'] = $this->crud_model->get_categories();
     $this->load->view('backend/index', $page_data);
   }
-
   public function users($param1 = "", $param2 = "") {
     if ($this->session->userdata('admin_login') != true) {
-      redirect(site_url('home/login'), 'refresh');
+        redirect(site_url('home/login'), 'refresh');
     }
+
     if ($param1 == "add") {
-      $this->user_model->add_user();
-      redirect(site_url('admin/users'), 'refresh');
+        $this->user_model->add_user();
+        redirect(site_url('admin/users'), 'refresh');
+    } elseif ($param1 == "edit") {
+        $this->user_model->edit_user($param2);
+        redirect(site_url('admin/users'), 'refresh');
+    } elseif ($param1 == "delete") {
+        $this->user_model->delete_user($param2);
+        redirect(site_url('admin/users'), 'refresh');
     }
-    elseif ($param1 == "edit") {
-      $this->user_model->edit_user($param2);
-      redirect(site_url('admin/users'), 'refresh');
-    }
-    elseif ($param1 == "delete") {
-      $this->user_model->delete_user($param2);
-      redirect(site_url('admin/users'), 'refresh');
+
+    // Filtering logic
+    $date_from = $this->input->get('date_from');
+    $date_to = $this->input->get('date_to');
+
+    if ($date_from && $date_to) {
+        $page_data['users'] = $this->user_model->get_users_by_date_range($date_from, $date_to);
+    } else {
+        $page_data['users'] = $this->user_model->get_all_users();
     }
 
     $page_data['page_name'] = 'users';
-    $page_data['page_title'] = get_phrase('student');
-    $page_data['users'] = $this->user_model->get_user($param2);
+    $page_data['page_title'] = get_phrase('students');
     $this->load->view('backend/index', $page_data);
+}
+public function admin($param1 = "", $param2 = "") {
+  if ($this->session->userdata('admin_login') != true) {
+      redirect(site_url('home/login'), 'refresh');
   }
 
-  public function admin($param1 = "", $param2 = "") {
-    if ($this->session->userdata('admin_login') != true) {
-      redirect(site_url('home/login'), 'refresh');
-    }
-    if ($param1 == "add") {
+  if ($param1 == "add") {
       $this->user_model->add_user();
       redirect(site_url('admin/admin'), 'refresh');
-    }
-    elseif ($param1 == "edit") {
+  } elseif ($param1 == "edit") {
       $this->user_model->edit_user($param2);
       redirect(site_url('admin/admin'), 'refresh');
-    }
-    elseif ($param1 == "delete") {
+  } elseif ($param1 == "delete") {
       $this->user_model->delete_user($param2);
       redirect(site_url('admin/admin'), 'refresh');
-    }
-
-    $page_data['page_name'] = 'admin';
-    $page_data['page_title'] = get_phrase('users');
-    $page_data['users'] = $this->user_model->get_all_user($param2);
-    $this->load->view('backend/index', $page_data);
   }
+
+  // Filtering logic
+  $role = $this->input->get('role');
+
+  if ($role !== null && $role !== '') {
+      $page_data['users'] = $this->user_model->get_users_by_role($role);
+  } else {
+      $page_data['users'] = $this->user_model->get_all_users();
+  }
+
+  $page_data['page_name'] = 'admin';
+  $page_data['page_title'] = get_phrase('users');
+  $this->load->view('backend/index', $page_data);
+}
   public function audit_trail() {
     if ($this->session->userdata('admin_login') != true) {
         redirect(site_url('home/login'), 'refresh');
@@ -804,32 +817,22 @@ class Admin extends CI_Controller {
 
   public function manuscripts() {
     if ($this->session->userdata('admin_login') != true) {
-        redirect(site_url('home/login'), 'refresh');
+      redirect(site_url('home/login'), 'refresh');
     }
+
 
     $page_data['selected_category_id']   = isset($_GET['category_id']) ? $_GET['category_id'] : "all";
     $page_data['selected_researcher_id'] = isset($_GET['researcher_id']) ? $_GET['researcher_id'] : "all";
     $page_data['selected_price']         = isset($_GET['price']) ? $_GET['price'] : "all";
     $page_data['selected_status']        = isset($_GET['status']) ? $_GET['status'] : "all";
-    $page_data['selected_year_from']     = isset($_GET['year_from']) ? $_GET['year_from'] : "";
-    $page_data['selected_year_to']       = isset($_GET['year_to']) ? $_GET['year_to'] : "";
-
-    $page_data['manuscripts'] = $this->crud_model->filter_manuscript_for_backend(
-        $page_data['selected_category_id'],
-        $page_data['selected_researcher_id'],
-        $page_data['selected_price'],
-        $page_data['selected_status'],
-        $page_data['selected_year_from'],
-        $page_data['selected_year_to']
-    );
-
-    $page_data['status_wise_manuscripts'] = $this->crud_model->get_status_wise_manuscripts();
-    $page_data['researchers'] = $this->user_model->get_researcher();
-    $page_data['page_name'] = 'manuscripts';
-    $page_data['categories'] = $this->crud_model->get_categories();
-    $page_data['page_title'] = get_phrase('active_manuscripts');
+    $page_data['manuscripts']                = $this->crud_model->filter_manuscript_for_backend($page_data['selected_category_id'], $page_data['selected_researcher_id'], $page_data['selected_price'], $page_data['selected_status']);
+    $page_data['status_wise_manuscripts']    = $this->crud_model->get_status_wise_manuscripts();
+    $page_data['researchers']            = $this->user_model->get_researcher();
+    $page_data['page_name']              = 'manuscripts';
+    $page_data['categories']             = $this->crud_model->get_categories();
+    $page_data['page_title']             = get_phrase('active_manuscripts');
     $this->load->view('backend/index', $page_data);
-}
+  }
 
   public function pending_manuscripts() {
     if ($this->session->userdata('admin_login') != true) {
@@ -927,15 +930,15 @@ class Admin extends CI_Controller {
 
     if ($param2 == 'add') {
       $this->crud_model->add_section($param1);
-      $this->session->set_flashdata('flash_message', get_phrase('section_has_been_added_successfully'));
+      
     }
     elseif ($param2 == 'edit') {
       $this->crud_model->edit_section($param3);
-      $this->session->set_flashdata('flash_message', get_phrase('section_has_been_updated_successfully'));
+      
     }
     elseif ($param2 == 'delete') {
       $this->crud_model->delete_section($param1, $param3);
-      $this->session->set_flashdata('flash_message', get_phrase('section_has_been_deleted_successfully'));
+      
     }
     redirect(site_url('admin/manuscript_form/manuscript_edit/'.$param1));
   }
@@ -1155,7 +1158,7 @@ class Admin extends CI_Controller {
       $manuscripts = $this->crud_model->get_manuscript_by_id($manuscript_id);
       if ($manuscripts->num_rows() > 0) {
         $manuscript_details = $manuscripts->row_array();
-        redirect(site_url('home/manuscript/'.slugify($manuscript_details['title']).'/'.$manuscript_details['id']), 'refresh');
+        redirect(site_url('home/lesson/'.slugify($manuscript_details['title']).'/'.$manuscript_details['id']), 'refresh');
       }
     }
     redirect(site_url('admin/manuscripts'), 'refresh');

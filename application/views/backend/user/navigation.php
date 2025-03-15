@@ -21,7 +21,7 @@
 			<li class="side-nav-item">
 				<a href="<?php echo site_url('user/manuscripts'); ?>" class="side-nav-link <?php if ($page_name == 'manuscripts' || $page_name == 'manuscript_add' || $page_name == 'manuscript_edit')echo 'active';?>">
 					<i class="dripicons-archive"></i>
-					<span><?php echo get_phrase('manuscripts'); ?></span>
+					<span><?php echo get_phrase('research'); ?></span>
 				</a>
 			</li>
 			<li class="side-nav-item">
@@ -45,3 +45,16 @@
 		</li>
 	    </ul>
 </div>
+<style>
+@media (max-width: 767.98px) {
+    body[data-layout=detached].sidebar-enable .left-side-menu {
+        position: fixed;
+        padding-top: 70px !important;
+        left: 0;
+        overflow-y: auto;
+    }
+    .left-side-menu.left-side-menu-detached {
+        padding-top: 70px;
+    }
+}
+</style>

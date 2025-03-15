@@ -35,6 +35,13 @@ class Login extends CI_Controller {
             'img_width'  => 153.31,
             'img_height' => 44.27,
             'expiration' => 600,
+            'font_size'  => 30, // Increase font size
+            'colors'     => array(
+                'background' => array(255, 255, 255),
+                'border' => array(255, 255, 255),
+                'text' => array(0, 0, 0), // Set text color to black
+                'grid' => array(255, 40, 40)
+            )
         );
 
         $cap = create_captcha($vals);

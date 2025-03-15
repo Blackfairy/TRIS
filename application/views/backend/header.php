@@ -13,7 +13,17 @@
         </a>
 
         <ul class="list-unstyled topbar-right-menu float-right mb-0">
-
+            <!-- Visit Website Button -->
+            <li class="dropdown notification-list">
+                <a class="nav-link dropdown-toggle nav-user arrow-none mr-0" href="<?php echo site_url('home'); ?>" role="button" aria-haspopup="true" aria-expanded="false" style="background-color: #111c4e !important;">
+                    <span class="account-user-avatar">
+                        <img src="<?php echo base_url('uploads/thumbnails/visit-website.png'); ?>" alt="Visit Website" class="rounded-circle" height="40">
+                    </span>
+                    <span style="color: #fff;">
+                        <span class="account-user-name"><?php echo get_phrase('visit_website'); ?></span>
+                    </span>
+                </a>
+            </li>  
             <!-- Dark Mode Toggle Button -->
             <li class="dropdown notification-list">
                 <a class="nav-link dropdown-toggle nav-user arrow-none mr-0" id="dark-mode-toggle" href="#" role="button" aria-haspopup="true" aria-expanded="false" style=" background-color: #111c4e !important;">
@@ -82,8 +92,7 @@
 </a>
 <div class="app-search">
     <h4 style="color: #fff; float: left;"> <?php echo $this->db->get_where('settings' , array('key'=>'system_name'))->row()->value; ?></h4>
-    <a href="<?php echo site_url('home'); ?>" target="" class="btn btn-outline-light ml-3"><?php echo get_phrase('visit_website'); ?></a>
-</div>
+    </div>
 </div>
 </div>
 <!-- end Topbar -->

@@ -2,7 +2,7 @@
     <div class="col-xl-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="page-title"> <i class="mdi mdi-apple-keyboard-command title_icon"></i> <?php echo get_phrase('add_new_manuscript'); ?></h4>
+                <h4 class="page-title"> <i class="mdi mdi-apple-keyboard-command title_icon"></i> <?php echo get_phrase('add_new_research'); ?></h4>
             </div> <!-- end card body-->
         </div> <!-- end card -->
     </div><!-- end col-->
@@ -13,7 +13,7 @@
         <div class="card">
             <div class="card-body">
 
-                <h4 class="header-title mb-3"><?php echo get_phrase('manuscript_adding_form'); ?>
+                <h4 class="header-title mb-3"><?php echo get_phrase('research_adding_form'); ?>
                     <a href="<?php echo site_url('admin/manuscripts'); ?>" class="alignToTitle btn btn-outline-secondary btn-rounded btn-sm"> <i class=" mdi mdi-keyboard-backspace"></i> <?php echo get_phrase('back_to_manuscript_list'); ?></a>
                 </h4>
 
@@ -23,6 +23,12 @@
                             <div id="basicwizard">
 
                                 <ul class="nav nav-pills nav-justified form-wizard-header mb-3">
+                                     <li class="nav-item">
+                                       <a href="#curriculum" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
+                                           <i class="mdi mdi-account-circle mr-1"></i>
+                                           <span class="d-none d-sm-inline"><?php echo get_phrase('research_file'); ?></span>
+                                       </a>
+                                   </li>
                                     <li class="nav-item">
                                         <a href="#basic" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
                                             <i class="mdi mdi-fountain-pen-tip mr-1"></i>
@@ -50,13 +56,13 @@
                                     <li class="nav-item">
                                         <a href="#media" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
                                             <i class="mdi mdi-library-video mr-1"></i>
-                                            <span class="d-none d-sm-inline"><?php echo get_phrase('media'); ?></span>
+                                            <span class="d-none d-sm-inline"><?php echo get_phrase('thumbnail'); ?></span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#seo" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
                                             <i class="mdi mdi-tag-multiple mr-1"></i>
-                                            <span class="d-none d-sm-inline"><?php echo get_phrase('seo'); ?></span>
+                                            <span class="d-none d-sm-inline"><?php echo get_phrase('search_engine_optimazation'); ?></span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
@@ -68,13 +74,16 @@
                                 </ul>
 
                                 <div class="tab-content b-0 mb-0">
+                                    <div class="tab-pane" id="curriculum">
+                                        <?php include 'curriculum.php'; ?>
+                                    </div>
                                     <div class="tab-pane" id="basic">
                                         <div class="row justify-content-center">
                                             <div class="col-xl-8">
                                                 <div class="form-group row mb-3">
-                                                    <label class="col-md-2 col-form-label" for="manuscript_title"><?php echo get_phrase('manuscript_title'); ?> <span class="required">*</span> </label>
+                                                    <label class="col-md-2 col-form-label" for="manuscript_title"><?php echo get_phrase('research_title'); ?> <span class="required">*</span> </label>
                                                     <div class="col-md-10">
-                                                        <input type="text" class="form-control" id="manuscript_title" name = "title" placeholder="<?php echo get_phrase('enter_manuscript_title'); ?>" required>
+                                                        <input type="text" class="form-control" id="manuscript_title" name = "title" placeholder="<?php echo get_phrase('enter_research_title'); ?>" required>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row mb-3">
@@ -107,19 +116,13 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row mb-3">
-                                                <label class="col-md-2 col-form-label" for="date_accomplished"><?php echo get_phrase('date_accomplished'); ?></label>
+                                                <label class="col-md-2 col-form-label" for="date_accomplished"><?php echo get_phrase('completion_year'); ?></label>
                                                 <div class="col-md-10">
                                                     <input type="date" class="form-control" id="date_accomplished" name="date_accomplished">
                                                 </div>
                                             </div>
 
 
-                                                <div class="form-group row mb-3">
-                                                    <label class="col-md-2 col-form-label" for="short_description"><?php echo get_phrase('short_description'); ?></label>
-                                                    <div class="col-md-10">
-                                                        <textarea name="short_description" id = "short_description" class="form-control"></textarea>
-                                                    </div>
-                                                </div>
                                                 <div class="form-group row mb-3">
                                                     <label class="col-md-2 col-form-label" for="description"><?php echo get_phrase('Abstract'); ?></label>
                                                     <div class="col-md-10">
@@ -157,7 +160,7 @@
                                                 <div class="offset-md-2 col-md-10">
                                                     <div class="custom-control custom-checkbox">
                                                         <input type="checkbox" class="custom-control-input" name="is_top_manuscript" id="is_top_manuscript" value="1">
-                                                        <label class="custom-control-label" for="is_top_manuscript"><?php echo get_phrase('check_if_this_manuscript_is_top_manuscript'); ?></label>
+                                                        <label class="custom-control-label" for="is_top_manuscript"><?php echo get_phrase('check_if_this_research_is_featured_research'); ?></label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -260,15 +263,15 @@
                                                 <div class="offset-md-2 col-md-10">
                                                     <div class="custom-control custom-checkbox">
                                                         <input type="checkbox" class="custom-control-input" name="is_free_manuscript" id="is_free_manuscript" value="1">
-                                                        <label class="custom-control-label" for="is_free_manuscript"><?php echo get_phrase('check_if_this_is_a_free_manuscript'); ?></label>
+                                                        <label class="custom-control-label" for="is_free_manuscript"><?php echo get_phrase('check_if_this_is_a_free_research'); ?></label>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="form-group row mb-3">
-                                                <label class="col-md-2 col-form-label" for="price"><?php echo get_phrase('manuscript_price').' ('.currency_code_and_symbol().')'; ?></label>
+                                                <label class="col-md-2 col-form-label" for="price"><?php echo get_phrase('research_price').' ('.currency_code_and_symbol().')'; ?></label>
                                                 <div class="col-md-10">
-                                                    <input type="number" class="form-control" id="price" name = "price" placeholder="<?php echo get_phrase('enter_manuscript_manuscript_price'); ?>" min="0">
+                                                    <input type="number" class="form-control" id="price" name = "price" placeholder="<?php echo get_phrase('enter_research_research_price'); ?>" min="0">
                                                 </div>
                                             </div>
 
@@ -276,7 +279,7 @@
                                                 <div class="offset-md-2 col-md-10">
                                                     <div class="custom-control custom-checkbox">
                                                         <input type="checkbox" class="custom-control-input" name="discount_flag" id="discount_flag" value="1">
-                                                        <label class="custom-control-label" for="discount_flag"><?php echo get_phrase('check_if_this_manuscript_has_discount'); ?></label>
+                                                        <label class="custom-control-label" for="discount_flag"><?php echo get_phrase('check_if_this_research_has_discount'); ?></label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -285,7 +288,7 @@
                                                 <label class="col-md-2 col-form-label" for="discounted_price"><?php echo get_phrase('discounted_price').' ('.currency_code_and_symbol().')'; ?></label>
                                                 <div class="col-md-10">
                                                     <input type="number" class="form-control" name="discounted_price" id="discounted_price" onkeyup="calculateDiscountPercentage(this.value)" min="0">
-                                                    <small class="text-muted"><?php echo get_phrase('this_manuscript_has'); ?> <span id = "discounted_percentage" class="text-danger">0%</span> <?php echo get_phrase('discount'); ?></small>
+                                                    <small class="text-muted"><?php echo get_phrase('this_research_has'); ?> <span id = "discounted_percentage" class="text-danger">0%</span> <?php echo get_phrase('discount'); ?></small>
                                                 </div>
                                             </div>
                                         </div> <!-- end col -->
@@ -296,10 +299,10 @@
 
                                         <div class="col-xl-8">
                                             <div class="form-group row mb-3">
-                                                <label class="col-md-2 col-form-label" for="manuscript_overview_provider"><?php echo get_phrase('manuscript_overview_provider'); ?></label>
+                                                <label class="col-md-2 col-form-label" for="manuscript_overview_provider"><?php echo get_phrase('research_overview_provider'); ?></label>
                                                 <div class="col-md-10">
                                                     <select class="form-control select2" data-toggle="select2" name="manuscript_overview_provider" id="manuscript_overview_provider">
-                                                        <option value="youtube"><?php echo get_phrase('youtube'); ?></option>
+                                                        <option value="youtube"><?php echo get_phrase('Image'); ?></option>
                                                         <option value="vimeo"><?php echo get_phrase('vimeo'); ?></option>
                                                         <option value="html5"><?php echo get_phrase('HTML5'); ?></option>
                                                     </select>
@@ -307,18 +310,10 @@
                                             </div>
                                         </div> <!-- end col -->
 
-                                        <div class="col-xl-8">
-                                            <div class="form-group row mb-3">
-                                                <label class="col-md-2 col-form-label" for="manuscript_overview_url"><?php echo get_phrase('manuscript_overview_url'); ?></label>
-                                                <div class="col-md-10">
-                                                    <input type="text" class="form-control" name="manuscript_overview_url" id="manuscript_overview_url" placeholder="E.g: https://www.youtube.com/watch?v=oBtf8Yglw2w">
-                                                </div>
-                                            </div>
-                                        </div> <!-- end col -->
 
                                         <div class="col-xl-8">
                                             <div class="form-group row mb-3">
-                                                <label class="col-md-2 col-form-label" for="manuscript_thumbnail_label"><?php echo get_phrase('manuscript_thumbnail'); ?></label>
+                                                <label class="col-md-2 col-form-label" for="manuscript_thumbnail_label"><?php echo get_phrase('research_thumbnail'); ?></label>
                                                 <div class="col-md-10">
                                                     <div class="wrapper-image-preview" style="margin-left: -6px;">
                                                         <div class="box" style="width: 250px;">
@@ -338,7 +333,7 @@
                                     <div class="row justify-content-center">
                                         <div class="col-xl-8">
                                             <div class="form-group row mb-3">
-                                                <label class="col-md-2 col-form-label" for="website_keywords"><?php echo get_phrase('meta_keywords'); ?></label>
+                                                <label class="col-md-2 col-form-label" for="website_keywords"><?php echo get_phrase('research_keywords'); ?></label>
                                                 <div class="col-md-10">
                                                     <input type="text" class="form-control bootstrap-tag-input" id = "meta_keywords" name="meta_keywords" data-role="tagsinput" style="width: 100%;"/>
                                                 </div>
@@ -387,6 +382,11 @@
   $(document).ready(function () {
     initSummerNote(['#description']);
   });
+</script>
+<script type="text/javascript">
+    // Generate a temporary identifier
+    var tempManuscriptId = 'temp_' + Math.random().toString(36).substr(2, 9);
+    document.getElementById('temp_manuscript_id').value = tempManuscriptId;
 </script>
 
 <script type="text/javascript">

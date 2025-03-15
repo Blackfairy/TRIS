@@ -81,7 +81,7 @@
         <div class="card">
             <div class="card-body">
 
-                <h4 class="header-title mb-4"><?php echo get_phrase('admin_revenue_this_year'); ?></h4>
+                <h4 class="header-title mb-4"><?php echo get_phrase('researchers_this_year'); ?></h4>
 
                 <div class="mt-3 chartjs-chart" style="height: 320px;">
                     <canvas id="task-area-chart"></canvas>
@@ -94,7 +94,7 @@
     <div class="col-xl-4">
         <div class="card">
             <div class="card-body">
-                <h4 class="header-title mb-4"><?php echo get_phrase('manuscript_overview'); ?></h4>
+                <h4 class="header-title mb-4"><?php echo get_phrase('research_overview'); ?></h4>
                 <div class="my-4 chartjs-chart" style="height: 202px;">
                     <canvas id="project-status-chart"></canvas>
                 </div>
@@ -104,14 +104,14 @@
                         <h3 class="font-weight-normal">
                             <span><?php echo $status_wise_manuscripts['active']->num_rows(); ?></span>
                         </h3>
-                        <p class="text-muted mb-0"><?php echo get_phrase('active_manuscripts'); ?></p>
+                        <p class="text-muted mb-0"><?php echo get_phrase('active_research'); ?></p>
                     </div>
                     <div class="col-6">
                         <i class="mdi mdi-trending-down text-warning mt-3 h3"></i>
                         <h3 class="font-weight-normal">
                             <span><?php echo $status_wise_manuscripts['pending']->num_rows(); ?></span>
                         </h3>
-                        <p class="text-muted mb-0"> <?php echo get_phrase('pending_manuscripts'); ?></p>
+                        <p class="text-muted mb-0"> <?php echo get_phrase('under_review_research'); ?></p>
                     </div>
                 </div>
             </div>

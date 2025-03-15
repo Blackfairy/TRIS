@@ -41,7 +41,6 @@ class Crud_model extends CI_Model {
         $category_details = $this->db->get_where('category', array('slug' => $slug))->row_array();
         return $category_details['id'];
     }
-
     public function add_category() {
         $data['code']   = html_escape($this->input->post('code'));
         $data['name']   = html_escape($this->input->post('name'));
@@ -51,23 +50,24 @@ class Crud_model extends CI_Model {
             // Font awesome class adding
             if ($_POST['font_awesome_class'] != "") {
                 $data['font_awesome_class'] = html_escape($this->input->post('font_awesome_class'));
-            }else {
+            } else {
                 $data['font_awesome_class'] = 'fas fa-chess';
             }
-
+    
             // category thumbnail adding
             if (!file_exists('uploads/thumbnails/category_thumbnails')) {
                 mkdir('uploads/thumbnails/category_thumbnails', 0777, true);
             }
             if ($_FILES['category_thumbnail']['name'] == "") {
                 $data['thumbnail'] = 'category-thumbnail.png';
-            }else {
-                $data['thumbnail'] = md5(rand(10000000, 20000000)).'.jpg';
-                move_uploaded_file($_FILES['category_thumbnail']['tmp_name'], 'uploads/thumbnails/category_thumbnails/'.$data['thumbnail']);
+            } else {
+                $data['thumbnail'] = md5(rand(10000000, 20000000)) . '.jpg';
+                move_uploaded_file($_FILES['category_thumbnail']['tmp_name'], 'uploads/thumbnails/category_thumbnails/' . $data['thumbnail']);
             }
         }
         $data['date_added'] = strtotime(date('D, d-M-Y'));
         $this->db->insert('category', $data);
+        $category_id = $this->db->insert_id(); // Get the inserted category ID
         $this->log_audit_trail($this->session->userdata('user_id'), 'add', 'category', $category_id, 'Category added');
     }
     public function get_sub_category_name($sub_category_id)
@@ -90,7 +90,7 @@ class Crud_model extends CI_Model {
             // Font awesome class adding
             if ($_POST['font_awesome_class'] != "") {
                 $data['font_awesome_class'] = html_escape($this->input->post('font_awesome_class'));
-            }else {
+            } else {
                 $data['font_awesome_class'] = 'fas fa-chess';
             }
             // category thumbnail adding
@@ -98,16 +98,15 @@ class Crud_model extends CI_Model {
                 mkdir('uploads/category_thumbnails', 0777, true);
             }
             if ($_FILES['category_thumbnail']['name'] != "") {
-                $data['thumbnail'] = md5(rand(10000000, 20000000)).'.jpg';
-                move_uploaded_file($_FILES['category_thumbnail']['tmp_name'], 'uploads/thumbnails/category_thumbnails/'.$data['thumbnail']);
+                $data['thumbnail'] = md5(rand(10000000, 20000000)) . '.jpg';
+                move_uploaded_file($_FILES['category_thumbnail']['tmp_name'], 'uploads/thumbnails/category_thumbnails/' . $data['thumbnail']);
             }
         }
         $data['last_modified'] = strtotime(date('D, d-M-Y'));
         $this->db->where('id', $param1);
         $this->db->update('category', $data);
-        $this->log_audit_trail($this->session->userdata('user_id'), 'update', 'category', $category_id, 'Category updated');
+        $this->log_audit_trail($this->session->userdata('user_id'), 'update', 'category', $param1, 'Category updated');
     }
-
     public function delete_category($category_id) {
         $this->db->where('id', $category_id);
         $this->db->delete('category');
@@ -545,10 +544,10 @@ class Crud_model extends CI_Model {
         // Update manuscript record
         $this->db->where('id', $manuscript_id);
         $this->db->update('manuscript', $data);
-    
+        
         // Handle thumbnail upload
         if ($_FILES['manuscript_thumbnail']['name'] != "") {
-            $thumbnail_file_name = $manuscript_id . '-' . time() . '.jpg';
+            $thumbnail_file_name = $manuscript_id . '.jpg';
             if (!file_exists('uploads/thumbnails/manuscript_thumbnails')) {
                 mkdir('uploads/thumbnails/manuscript_thumbnails', 0777, true);
             }
@@ -559,6 +558,7 @@ class Crud_model extends CI_Model {
             $this->db->where('id', $manuscript_id);
             $this->db->update('manuscript', ['thumbnail' => $thumbnail_file_name]);
         }
+    
     
         // Set flash message based on the manuscript status
         if ($data['status'] == 'approved') {
@@ -671,7 +671,6 @@ class Crud_model extends CI_Model {
         }
         return $manuscripts;
     }
-
     public function get_status_wise_manuscripts_for_researcher($status = "") {
         if ($status != "") {
             $this->db->where('status', $status);
@@ -692,7 +691,6 @@ class Crud_model extends CI_Model {
         }
         return $manuscripts;
     }
-
     public function get_default_sub_category_id($default_cateegory_id) {
         $sub_categories = $this->get_sub_categories($default_cateegory_id);
         foreach ($sub_categories as $sub_category) {
@@ -797,6 +795,23 @@ class Crud_model extends CI_Model {
         $this->db->update('manuscript', $updater);
     }
 
+  private function add_watermark($file_path, $output_path) {
+        $mpdf = new \Mpdf\Mpdf();
+        $pagecount = $mpdf->setSourceFile($file_path);
+
+        for ($i = 1; $i <= $pagecount; $i++) {
+            $tplId = $mpdf->importPage($i);
+            $mpdf->AddPage();
+            $mpdf->useTemplate($tplId);
+            $mpdf->SetWatermarkText('TECHNOLOGICAL RESEARCH INFORMATION SYSTEM');
+            $mpdf->showWatermarkText = true;
+            $mpdf->watermarkTextAlpha = .1;
+        }
+
+        $mpdf->Output($output_path, 'F');
+    }
+    
+
     public function add_lesson() {
         $data['manuscript_id'] = html_escape($this->input->post('manuscript_id'));
         $data['title'] = html_escape($this->input->post('title'));
@@ -808,54 +823,28 @@ class Crud_model extends CI_Model {
         $data['attachment_type'] = $lesson_type_array[1];
         $data['lesson_type'] = $lesson_type;
 
-        if($lesson_type == 'video') {
-            $lesson_provider = $this->input->post('lesson_provider');
-            if ($lesson_provider == 'youtube' || $lesson_provider == 'vimeo') {
-                if ($this->input->post('video_url') == "" || $this->input->post('duration') == "") {
-                    $this->session->set_flashdata('error_message',get_phrase('invalid_lesson_url_and_duration'));
-                    redirect(site_url(strtolower($this->session->userdata('role')).'/manuscript_form/manuscript_edit/'.$data['manuscript_id']), 'refresh');
-                }
-                $data['video_url'] = html_escape($this->input->post('video_url'));
-
-                $duration_formatter = explode(':', $this->input->post('duration'));
-                $hour = sprintf('%02d', $duration_formatter[0]);
-                $min = sprintf('%02d', $duration_formatter[1]);
-                $sec = sprintf('%02d', $duration_formatter[2]);
-                $data['duration'] = $hour.':'.$min.':'.$sec;
-
-                $video_details = $this->video_model->getVideoDetails($data['video_url']);
-                $data['video_type'] = $video_details['provider'];
-            }elseif ($lesson_provider == 'html5') {
-                if ($this->input->post('html5_video_url') == "" || $this->input->post('html5_duration') == "") {
-                    $this->session->set_flashdata('error_message',get_phrase('invalid_lesson_url_and_duration'));
-                    redirect(site_url(strtolower($this->session->userdata('role')).'/manuscript_form/manuscript_edit/'.$data['manuscript_id']), 'refresh');
-                }
-                $data['video_url'] = html_escape($this->input->post('html5_video_url'));
-                $duration_formatter = explode(':', $this->input->post('html5_duration'));
-                $hour = sprintf('%02d', $duration_formatter[0]);
-                $min = sprintf('%02d', $duration_formatter[1]);
-                $sec = sprintf('%02d', $duration_formatter[2]);
-                $data['duration'] = $hour.':'.$min.':'.$sec;
-                $data['video_type'] = 'html5';
-            }else {
-                $this->session->set_flashdata('error_message',get_phrase('invalid_lesson_provider'));
-                redirect(site_url(strtolower($this->session->userdata('role')).'/manuscript_form/manuscript_edit/'.$data['manuscript_id']), 'refresh');
-            }
-        }else {
+        if ($lesson_type == 'other') {
             if ($_FILES['attachment']['name'] == "") {
-                $this->session->set_flashdata('error_message',get_phrase('invalid_attachment'));
+                $this->session->set_flashdata('error_message', get_phrase('invalid_attachment'));
                 redirect(site_url(strtolower($this->session->userdata('role')).'/manuscript_form/manuscript_edit/'.$data['manuscript_id']), 'refresh');
-            }else {
-                $fileName           = $_FILES['attachment']['name'];
-                $tmp                = explode('.', $fileName);
-                $fileExtension      = end($tmp);
-                $uploadable_file    =  md5(uniqid(rand(), true)).'.'.$fileExtension;
+            } else {
+                $fileName = $_FILES['attachment']['name'];
+                $tmp = explode('.', $fileName);
+                $fileExtension = end($tmp);
+                $uploadable_file = md5(uniqid(rand(), true)).'.'.$fileExtension;
                 $data['attachment'] = $uploadable_file;
 
                 if (!file_exists('uploads/lesson_files')) {
                     mkdir('uploads/lesson_files', 0777, true);
                 }
                 move_uploaded_file($_FILES['attachment']['tmp_name'], 'uploads/lesson_files/'.$uploadable_file);
+
+                // Add watermark if the file is a PDF
+                if ($fileExtension == 'pdf') {
+                    $watermarked_file_path = 'uploads/lesson_files/watermarked_' . $uploadable_file;
+                    $this->add_watermark('uploads/lesson_files/'.$uploadable_file, $watermarked_file_path);
+                    $data['attachment'] = 'watermarked_' . $uploadable_file;
+                }
             }
         }
 
@@ -1384,7 +1373,7 @@ class Crud_model extends CI_Model {
         }
 
         // version 1.4
-        function filter_manuscript($selected_category_id = "", $selected_price = "", $selected_level = "", $selected_language = "", $selected_rating = "", $search_string = "") {
+        function filter_manuscript($selected_category_id = "", $selected_price = "",$selected_rating = "", $search_string = "") {
             $manuscript_ids = array();
     
             if ($selected_category_id != "all") {
@@ -1397,14 +1386,6 @@ class Crud_model extends CI_Model {
                 } elseif ($selected_price == "free") {
                     $this->db->where('is_free_manuscript', 1);
                 }
-            }
-    
-            if ($selected_level != "all") {
-                $this->db->where('level', $selected_level);
-            }
-    
-            if ($selected_language != "all") {
-                $this->db->where('language', $selected_language);
             }
     
             if (!empty($search_string)) {
@@ -1451,13 +1432,15 @@ class Crud_model extends CI_Model {
             }
         }
 
-        public function filter_manuscript_for_backend($category_id, $researcher_id, $price, $status, $year_from, $year_to) {
+        public function filter_manuscript_for_backend($category_id, $researcher_id, $price, $status, $year_from = null, $year_to = null) {
             if ($category_id != "all") {
                 $this->db->where('sub_category_id', $category_id);
             }
         
             if ($price != "all") {
-                if ($price == 'free') {
+                if ($price == "paid") {
+                    $this->db->where('is_free_manuscript', null);
+                } elseif ($price == "free") {
                     $this->db->where('is_free_manuscript', 1);
                 } else {
                     $this->db->where('is_free_manuscript', 0);

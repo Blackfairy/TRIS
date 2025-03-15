@@ -266,7 +266,19 @@ class User_model extends CI_Model {
             return false;
         }
     }
-
+    
+    public function get_all_users() {
+        return $this->db->get('users')->result_array();
+    }
+    public function get_users_by_date_range($date_from, $date_to) {
+        $this->db->where('date_added >=', $date_from);
+        $this->db->where('date_added <=', $date_to);
+        return $this->db->get('users')->result_array();
+    }
+    public function get_users_by_role($role) {
+        $this->db->where('role_id', $role);
+        return $this->db->get('users');
+    }
     public function get_user_image_url($user_id) {
 
          if (file_exists('uploads/user_image/'.$user_id.'.jpg'))

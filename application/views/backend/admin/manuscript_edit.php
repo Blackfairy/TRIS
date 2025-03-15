@@ -22,13 +22,13 @@ $manuscript_details = $this->crud_model->get_manuscript_by_id($manuscript_id)->r
 
                 <div class="row">
                     <div class="col-xl-12">
-                        <form class="required-form" action="<?php echo site_url('admin/manuscript_actions/edit/'.$manuscript_id); ?>" method="post" enctype="multipart/form-data">
+                    <form class="required-form" action="<?php echo site_url('admin/manuscript_actions/edit/'.$manuscript_id); ?>" method="post" enctype="multipart/form-data">
                             <div id="basicwizard">
                                 <ul class="nav nav-pills nav-justified form-wizard-header mb-3">
                                     <li class="nav-item">
                                        <a href="#curriculum" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
                                            <i class="mdi mdi-account-circle mr-1"></i>
-                                           <span class="d-none d-sm-inline"><?php echo get_phrase('file'); ?></span>
+                                           <span class="d-none d-sm-inline"><?php echo get_phrase('research_file'); ?></span>
                                        </a>
                                    </li>
                                     <li class="nav-item">
@@ -58,13 +58,13 @@ $manuscript_details = $this->crud_model->get_manuscript_by_id($manuscript_id)->r
                                     <li class="nav-item">
                                         <a href="#media" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
                                             <i class="mdi mdi-library-video mr-1"></i>
-                                            <span class="d-none d-sm-inline"><?php echo get_phrase('media'); ?></span>
+                                            <span class="d-none d-sm-inline"><?php echo get_phrase('thumbnail'); ?></span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#seo" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
                                             <i class="mdi mdi-tag-multiple mr-1"></i>
-                                            <span class="d-none d-sm-inline"><?php echo get_phrase('seo'); ?></span>
+                                            <span class="d-none d-sm-inline"><?php echo get_phrase('search_engine_optimization'); ?></span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
@@ -84,9 +84,9 @@ $manuscript_details = $this->crud_model->get_manuscript_by_id($manuscript_id)->r
                                     <div class="row justify-content-center">
                                         <div class="col-xl-8">
                                             <div class="form-group row mb-3">
-                                                <label class="col-md-2 col-form-label" for="manuscript_title"><?php echo get_phrase('manuscript_title'); ?><span class="required">*</span></label>
+                                                <label class="col-md-2 col-form-label" for="manuscript_title"><?php echo get_phrase('research_title'); ?><span class="required">*</span></label>
                                                 <div class="col-md-10">
-                                                    <input type="text" class="form-control" id="manuscript_title" name="title" placeholder="<?php echo get_phrase('enter_manuscript_title'); ?>" value="<?php echo $manuscript_details['title']; ?>" required>
+                                                    <input type="text" class="form-control" id="manuscript_title" name="title" placeholder="<?php echo get_phrase('enter_research_title'); ?>" value="<?php echo $manuscript_details['title']; ?>" required>
                                                 </div>
                                             </div>
 
@@ -114,18 +114,12 @@ $manuscript_details = $this->crud_model->get_manuscript_by_id($manuscript_id)->r
                                             </div>
 
                                             <div class="form-group row mb-3">
-                                                <label class="col-md-2 col-form-label" for="date_accomplished"><?php echo get_phrase('date_accomplished'); ?></label>
+                                                <label class="col-md-2 col-form-label" for="date_accomplished"><?php echo get_phrase('completion_year'); ?></label>
                                                 <div class="col-md-10">
                                                     <input type="date" class="form-control" id="date_accomplished" name="date_accomplished" value="<?php echo $manuscript_details['date_accomplished']; ?>">
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row mb-3">
-                                                <label class="col-md-2 col-form-label" for="short_description"><?php echo get_phrase('short_description'); ?></label>
-                                                <div class="col-md-10">
-                                                    <textarea name="short_description" id="short_description" class="form-control"><?php echo $manuscript_details['short_description']; ?></textarea>
-                                                </div>
-                                            </div>
 
                                             <div class="form-group row mb-3">
                                                 <label class="col-md-2 col-form-label" for="description"><?php echo get_phrase('abstract'); ?></label>
@@ -166,7 +160,7 @@ $manuscript_details = $this->crud_model->get_manuscript_by_id($manuscript_id)->r
                                                 <div class="offset-md-2 col-md-10">
                                                     <div class="custom-control custom-checkbox">
                                                         <input type="checkbox" class="custom-control-input" name="is_top_manuscript" id="is_top_manuscript" value="1" <?php if($manuscript_details['is_top_manuscript'] == 1) echo 'checked'; ?>>
-                                                        <label class="custom-control-label" for="is_top_manuscript"><?php echo get_phrase('check_if_this_manuscript_is_top_manuscript'); ?></label>
+                                                        <label class="custom-control-label" for="is_top_manuscript"><?php echo get_phrase('check_if_this_research_is_top_research'); ?></label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -339,7 +333,7 @@ $manuscript_details = $this->crud_model->get_manuscript_by_id($manuscript_id)->r
                                         <div class="offset-md-2 col-md-10">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" name="is_free_manuscript" id="is_free_manuscript" value="1" <?php if($manuscript_details['is_free_manuscript'] == 1) echo 'checked'; ?>>
-                                                <label class="custom-control-label" for="is_free_manuscript"><?php echo get_phrase('check_if_this_is_a_free_manuscript'); ?></label>
+                                                <label class="custom-control-label" for="is_free_manuscript"><?php echo get_phrase('check_if_this_is_a_free_research'); ?></label>
                                             </div>
                                         </div>
                                     </div>
@@ -347,7 +341,7 @@ $manuscript_details = $this->crud_model->get_manuscript_by_id($manuscript_id)->r
                                     <div class="form-group row mb-3">
                                         <label class="col-md-2 col-form-label" for="price"><?php echo get_phrase('manuscript_price').' ('.currency_code_and_symbol().')'; ?></label>
                                         <div class="col-md-10">
-                                            <input type="number" class="form-control" id="price" name = "price" min="0" placeholder="<?php echo get_phrase('enter_manuscript_manuscript_price'); ?>" value="<?php echo $manuscript_details['price']; ?>" >
+                                            <input type="number" class="form-control" id="price" name = "price" min="0" placeholder="<?php echo get_phrase('enter_research_research_price'); ?>" value="<?php echo $manuscript_details['price']; ?>" >
                                         </div>
                                     </div>
 
@@ -355,7 +349,7 @@ $manuscript_details = $this->crud_model->get_manuscript_by_id($manuscript_id)->r
                                         <div class="offset-md-2 col-md-10">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" name="discount_flag" id="discount_flag" value="1" <?php if($manuscript_details['discount_flag'] == 1) echo 'checked'; ?>>
-                                                <label class="custom-control-label" for="discount_flag"><?php echo get_phrase('check_if_this_manuscript_has_discount'); ?></label>
+                                                <label class="custom-control-label" for="discount_flag"><?php echo get_phrase('check_if_this_research_has_discount'); ?></label>
                                             </div>
                                         </div>
                                     </div>
@@ -364,7 +358,7 @@ $manuscript_details = $this->crud_model->get_manuscript_by_id($manuscript_id)->r
                                         <label class="col-md-2 col-form-label" for="discounted_price"><?php echo get_phrase('discounted_price').' ('.currency_code_and_symbol().')'; ?></label>
                                         <div class="col-md-10">
                                             <input type="number" class="form-control" name="discounted_price" id="discounted_price" onkeyup="calculateDiscountPercentage(this.value)" value="<?php echo $manuscript_details['discounted_price']; ?>" min="0">
-                                            <small class="text-muted"><?php echo get_phrase('this_manuscript_has'); ?> <span id = "discounted_percentage" class="text-danger">0%</span> <?php echo get_phrase('discount'); ?></small>
+                                            <small class="text-muted"><?php echo get_phrase('this_research_has'); ?> <span id = "discounted_percentage" class="text-danger">0%</span> <?php echo get_phrase('discount'); ?></small>
                                         </div>
                                     </div>
                                 </div> <!-- end col -->
@@ -375,10 +369,10 @@ $manuscript_details = $this->crud_model->get_manuscript_by_id($manuscript_id)->r
 
                                 <div class="col-xl-8">
                                     <div class="form-group row mb-3">
-                                        <label class="col-md-2 col-form-label" for="manuscript_overview_provider"><?php echo get_phrase('manuscript_overview_provider'); ?></label>
+                                        <label class="col-md-2 col-form-label" for="manuscript_overview_provider"><?php echo get_phrase('research_overview_provider'); ?></label>
                                         <div class="col-md-10">
                                             <select class="form-control select2" data-toggle="select2" name="manuscript_overview_provider" id="manuscript_overview_provider">
-                                                <option value="youtube" <?php if ($manuscript_details['manuscript_overview_provider'] == 'youtube')echo 'selected';?>><?php echo get_phrase('youtube'); ?></option>
+                                                <option value="youtube" <?php if ($manuscript_details['manuscript_overview_provider'] == 'youtube')echo 'selected';?>><?php echo get_phrase('Image'); ?></option>
                                                 <option value="vimeo" <?php if ($manuscript_details['manuscript_overview_provider'] == 'vimeo')echo 'selected';?>><?php echo get_phrase('vimeo'); ?></option>
                                                 <option value="html5"><?php echo get_phrase('HTML5'); ?></option>
                                             </select>
@@ -388,22 +382,13 @@ $manuscript_details = $this->crud_model->get_manuscript_by_id($manuscript_id)->r
 
                                 <div class="col-xl-8">
                                     <div class="form-group row mb-3">
-                                        <label class="col-md-2 col-form-label" for="manuscript_overview_url"><?php echo get_phrase('manuscript_overview_url'); ?></label>
-                                        <div class="col-md-10">
-                                            <input type="text" class="form-control" name="manuscript_overview_url" id="manuscript_overview_url" placeholder="E.g: https://www.youtube.com/watch?v=oBtf8Yglw2w" value="<?php echo $manuscript_details['video_url'] ?>">
-                                        </div>
-                                    </div>
-                                </div> <!-- end col -->
-
-                                <div class="col-xl-8">
-                                    <div class="form-group row mb-3">
-                                        <label class="col-md-2 col-form-label" for="manuscript_thumbnail_label"><?php echo get_phrase('manuscript_thumbnail'); ?></label>
+                                        <label class="col-md-2 col-form-label" for="manuscript_thumbnail_label"><?php echo get_phrase('research_thumbnail'); ?></label>
                                         <div class="col-md-10">
                                             <div class="wrapper-image-preview" style="margin-left: -6px;">
                                                 <div class="box" style="width: 250px;">
                                                     <div class="js--image-preview" style="background-image: url(<?php echo $this->crud_model->get_manuscript_thumbnail_url($manuscript_details['id']);?>); background-color: #F5F5F5;"></div>
                                                     <div class="upload-options">
-                                                        <label for="manuscript_thumbnail" class="btn"> <i class="mdi mdi-camera"></i> <?php echo get_phrase('manuscript_thumbnail'); ?> <br> <small>(600 X 600)</small> </label>
+                                                        <label for="manuscript_thumbnail" class="btn"> <i class="mdi mdi-camera"></i> <?php echo get_phrase('research_thumbnail'); ?> <br> <small>(600 X 600)</small> </label>
                                                         <input id="manuscript_thumbnail" style="visibility:hidden;" type="file" class="image-upload" name="manuscript_thumbnail" accept="image/*">
                                                     </div>
                                                 </div>
@@ -417,7 +402,7 @@ $manuscript_details = $this->crud_model->get_manuscript_by_id($manuscript_id)->r
                             <div class="row justify-content-center">
                                 <div class="col-xl-8">
                                     <div class="form-group row mb-3">
-                                        <label class="col-md-2 col-form-label" for="website_keywords"><?php echo get_phrase('meta_keywords'); ?></label>
+                                        <label class="col-md-2 col-form-label" for="website_keywords"><?php echo get_phrase('research_keywords'); ?></label>
                                         <div class="col-md-10">
                                             <input type="text" class="form-control bootstrap-tag-input" id = "meta_keywords" name="meta_keywords" data-role="tagsinput" style="width: 100%;" value="<?php echo $manuscript_details['meta_keywords']; ?>"/>
                                         </div>

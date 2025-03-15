@@ -3,7 +3,7 @@
         'name' => 'codeigniter/framework',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'b447bf1719374f2aefedad37a04731b81e393b81',
+        'reference' => '6209d0a0e0c6d004cd3bf5aebcef502d8b5653c6',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'codeigniter/framework' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'b447bf1719374f2aefedad37a04731b81e393b81',
+            'reference' => '6209d0a0e0c6d004cd3bf5aebcef502d8b5653c6',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -71,7 +71,7 @@ if ( ! function_exists('create_captcha'))
 			'font_path'	=> '',
 			'expiration'	=> 7200,
 			'word_length'	=> 8,
-			'font_size'	=> 16,
+			'font_size'	=> 30,
 			'img_id'	=> '',
 			'pool'		=> '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
 			'colors'	=> array(
@@ -289,9 +289,9 @@ if ( ! function_exists('create_captcha'))
 		}
 		else
 		{
-			($font_size > 30) && $font_size = 30;
-			$x = mt_rand(0, $img_width / ($length / 1.5));
-			$y = $font_size + 2;
+			$font_size  = 28; //edited font for captcha size
+			$x = rand(0, $img_width/($length/1.5));
+			$y = $font_size+2;
 		}
 
 		for ($i = 0; $i < $length; $i++)
